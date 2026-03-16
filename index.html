@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>猫眼 MaoYan · 信任即财富 | 积分钱包 × 网红变现平台</title>
+    <meta name="description" content="猫眼平台 — 把你的影响力变成真实收益。积分钱包 × 达人变现 × 社交电商，影响力 = 流量 × 转化率 × 客单价。" />
+    <meta name="keywords" content="猫眼,maoyan,网红变现,积分钱包,社交电商,达人平台,信任货币化" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="猫眼 MaoYan · 信任即财富" />
+    <meta property="og:description" content="把你的影响力变成真实收益" />
+    <meta property="og:image" content="https://maoyan.vip/og-image.png" />
+    <meta property="og:url" content="https://maoyan.vip" />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Analytics 4 — ID 由 Vite 环境变量注入 -->
+    <script>
+      // 只在配置了真实 Measurement ID 时才加载 GA4
+      (function() {
+        var gaId = '%VITE_GA_MEASUREMENT_ID%';
+        if (!gaId || gaId === '%VITE_GA_MEASUREMENT_ID%' || gaId.indexOf('G-') !== 0) return;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', gaId, { send_page_view: false });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
