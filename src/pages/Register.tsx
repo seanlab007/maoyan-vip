@@ -6,6 +6,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { trackRegister } from '@/lib/analytics'
 import toast from 'react-hot-toast'
+import '@/styles/auth.css'
 
 const schema = z.object({
   email: z.string().email('请输入有效邮箱'),
