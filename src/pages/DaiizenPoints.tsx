@@ -14,6 +14,10 @@ export default function DaiizenPoints() {
   const [linkForm, setLinkForm] = useState({ openId: '' });
   const [syncing, setSyncing] = useState(false);
 
+  const handleOpenDaiizen = () => {
+    window.open('https://daiizen.com', '_blank');
+  };
+
   useEffect(() => {
     loadData();
   }, [user]);
@@ -115,6 +119,12 @@ export default function DaiizenPoints() {
             <div className="daiizen-actions">
               <button
                 className="daiizen-button daiizen-button-primary"
+                onClick={handleOpenDaiizen}
+              >
+                🛍️ 访问 daiizen.com
+              </button>
+              <button
+                className="daiizen-button daiizen-button-secondary"
                 onClick={() => setShowLinkDialog(true)}
               >
                 🔗 关联 daiizen 账号

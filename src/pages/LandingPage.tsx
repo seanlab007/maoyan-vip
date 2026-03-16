@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 /**
  * 完整版首页（包含五级达人体系、三种变现路径等）
@@ -9,11 +10,11 @@ export default function LandingPage() {
       {/* 顶部导航 */}
       <nav>
         <div className="nav-inner">
-          <a href="#" className="nav-logo">
+          <Link to="/" className="nav-logo">
             <div className="logo-icon">🐱</div>
             <span className="gold-text">猫眼</span>
             <span style={{ color: 'var(--text3)', fontSize: '13px', fontWeight: '500' }}>MaoYan</span>
-          </a>
+          </Link>
           <div className="nav-links">
             <a href="#trust">信任积分</a>
             <a href="#monetize">变现路径</a>
@@ -22,8 +23,8 @@ export default function LandingPage() {
             <a href="#supply">供应链</a>
           </div>
           <div className="nav-cta">
-            <button className="nav-btn-login">登录</button>
-            <button className="nav-btn-reg">免费注册 →</button>
+            <Link to="/login" className="nav-btn-login">登录</Link>
+            <Link to="/register" className="nav-btn-reg">免费注册 →</Link>
           </div>
         </div>
       </nav>
@@ -48,9 +49,9 @@ export default function LandingPage() {
               每一次分享、每一笔成交、每一个新用户，都在为你累积财富。
             </p>
             <div className="hero-actions">
-              <button className="btn-gold" onClick={() => alert('注册功能即将上线，敬请期待！')}>
+              <Link to="/register" className="btn-gold">
                 🚀 立即开始赚积分
-              </button>
+              </Link>
               <button
                 className="btn-outline"
                 onClick={() => document.getElementById('monetize')?.scrollIntoView({ behavior: 'smooth' })}
