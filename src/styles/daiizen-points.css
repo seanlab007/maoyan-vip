@@ -1,0 +1,304 @@
+/* daiizen 积分管理页面样式 */
+
+.daiizen-points-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--red, #E53935);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.title-icon {
+  color: var(--fu-gold, #FFD700);
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary, #999);
+}
+
+.points-tabs {
+  background: transparent;
+}
+
+.points-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.points-card {
+  background: linear-gradient(135deg, #E53935 0%, #FF9800 100%);
+  color: white;
+  border: none;
+}
+
+.points-balance {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.balance-value {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.balance-label {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.points-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.account-link-card,
+.quick-actions-card {
+  background: var(--card-bg, #1a1a24);
+  border: 1px solid var(--border-color, #2a2a3a);
+}
+
+.linked-status,
+.unlinked-status {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--bg-secondary, #14141a);
+}
+
+.status-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.status-icon.success {
+  background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+  color: white;
+}
+
+.status-icon.warning {
+  background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+  color: white;
+}
+
+.status-text {
+  flex: 1;
+}
+
+.status-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+  margin-bottom: 4px;
+}
+
+.status-desc {
+  font-size: 14px;
+  color: var(--text-secondary, #999);
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color, #2a2a3a);
+}
+
+.transaction-item:hover {
+  background: var(--bg-secondary, #14141a);
+}
+
+.tx-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary, #14141a);
+  color: var(--text-secondary, #999);
+}
+
+.tx-details {
+  flex: 1;
+}
+
+.tx-reason {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary, #fff);
+  margin-bottom: 4px;
+}
+
+.tx-time {
+  font-size: 14px;
+  color: var(--text-secondary, #999);
+}
+
+.tx-amount {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.tx-amount.earned {
+  color: #4CAF50;
+}
+
+.tx-amount.spent {
+  color: #E53935;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--text-secondary, #999);
+}
+
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--bg-secondary, #14141a);
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #2a2a3a);
+}
+
+.rule-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--fu-gold, #FFD700) 0%, var(--orange, #FF9800) 100%);
+  color: #000;
+  flex-shrink: 0;
+}
+
+.rule-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rule-title {
+  font-size: 16px;
+  color: var(--text-primary, #fff);
+}
+
+.rules-tips {
+  background: linear-gradient(135deg, rgba(229, 57, 53, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+  border: 1px solid var(--red, #E53935);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.rules-tips h4 {
+  color: var(--red, #E53935);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.rules-tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.rules-tips li {
+  font-size: 14px;
+  color: var(--text-primary, #fff);
+  margin-bottom: 8px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .daiizen-points-page {
+    padding: 16px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .points-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-value {
+    font-size: 48px;
+  }
+
+  .linked-status,
+  .unlinked-status {
+    flex-direction: column;
+    text-align: center;
+  }
+}

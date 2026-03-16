@@ -7,7 +7,8 @@ import { useLocation } from 'react-router-dom'
 
 import ProtectedRoute from '@/components/auth/ProtectedRoute'
 import AppLayout from '@/components/layout/AppLayout'
-import '@/styles/drama.css'  // 导入短剧页面样式
+import '@/styles/drama.css'
+import '@/styles/daiizen-points.css'
 
 // 懒加载页面
 const HomePage = React.lazy(() => import('@/pages/Home'))
@@ -19,6 +20,7 @@ const ProfilePage = React.lazy(() => import('@/pages/Profile'))
 const LeaderboardPage = React.lazy(() => import('@/pages/Leaderboard'))
 const CreatorCardPage = React.lazy(() => import('@/pages/CreatorCard'))
 const DramaPage = React.lazy(() => import('@/pages/Drama'))
+const DaiizenPointsPage = React.lazy(() => import('@/pages/DaiizenPoints'))
 
 // GA4 页面追踪
 function AnalyticsTracker() {
@@ -74,6 +76,13 @@ function AppRoutes() {
             <ProtectedRoute>
               <AppLayout>
                 <DramaPage />
+              </AppLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/daiizen-points" element={
+            <ProtectedRoute>
+              <AppLayout>
+                <DaiizenPointsPage />
               </AppLayout>
             </ProtectedRoute>
           } />
