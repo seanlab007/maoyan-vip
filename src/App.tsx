@@ -23,6 +23,7 @@ const CreatorCardPage = React.lazy(() => import('@/pages/CreatorCard'))
 const DramaPage = React.lazy(() => import('@/pages/Drama'))
 const DaiizenPointsPage = React.lazy(() => import('@/pages/DaiizenPoints'))
 const LandingPage = React.lazy(() => import('@/pages/LandingPage'))
+const TestAuthPage = React.lazy(() => import('@/pages/TestAuth'))
 
 // GA4 页面追踪
 function AnalyticsTracker() {
@@ -43,6 +44,7 @@ function AppRoutes() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/test-auth" element={<TestAuthPage />} />
           <Route path="/u/:username" element={<CreatorCardPage />} />
 
           {/* 受保护页面（需登录） */}
