@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 const NAV_ITEMS = [
   { path: '/dashboard', icon: '🪙', label: '积分钱包' },
   { path: '/drama',    icon: '🎬', label: '短剧投资' },
+  { path: '/daiizen-points', icon: '🛍️', label: 'daiizen积分' },
   { path: '/wallet',    icon: '💰', label: '积分明细' },
   { path: '/profile',   icon: '🪪', label: '我的名片' },
   { path: '/leaderboard', icon: '🏆', label: '排行榜' },
@@ -59,6 +60,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div className="user-dropdown">
               <Link to="/profile" onClick={() => setMenuOpen(false)}>个人中心</Link>
               <Link to="/wallet" onClick={() => setMenuOpen(false)}>积分钱包</Link>
+              <Link to="/daiizen-points" onClick={() => setMenuOpen(false)}>daiizen积分</Link>
               <hr />
               <button onClick={handleSignOut}>退出登录</button>
             </div>
