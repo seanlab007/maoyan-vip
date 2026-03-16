@@ -65,12 +65,44 @@ export const useAuthStore = create<AuthState>()(
       },
 
       loadUserData: async (userId: string) => {
-        const [profileRes, walletRes] = await Promise.all([
-          supabase.from('profiles').select('*').eq('id', userId).single(),
-          supabase.from('wallets').select('*').eq('user_id', userId).single(),
-        ])
-        if (profileRes.data) set({ profile: profileRes.data as unknown as Profile })
-        if (walletRes.data) set({ wallet: walletRes.data as unknown as Wallet })
+        try {
+          const [profileRes, walletRes] = await Promise.all([
+            supabase.from('profiles').select('*').eq('id', userId).single(),
+            supabase.from('wallets').select('*').eq('user_id', userId).single(),
+          ])
+          
+          if (profileRes.data) {
+            set({ profile: profileRes.data as unknown as Profile })
+          } else {
+            console.warn('Profile not found for user:', userId)
+          }
+          
+          if (walletRes.data) {
+            set({ wallet: walletRes.data as unknown as Wallet })
+          } else {
+            console.warn('Wallet not found for user:', userId)
+            // 如果 wallet 不存在，创建一个默认的
+            const { error: createWalletError } = await supabase
+              .from('wallets')
+              .insert({
+                user_id: userId,
+                balance: 0,
+                total_earned: 0,
+              })
+            if (!createWalletError) {
+              const { data: newWallet } = await supabase
+                .from('wallets')
+                .select('*')
+                .eq('user_id', userId)
+                .single()
+              if (newWallet) {
+                set({ wallet: newWallet as unknown as Wallet })
+              }
+            }
+          }
+        } catch (error) {
+          console.error('加载用户数据失败:', error)
+        }
       },
 
       signOut: async () => {

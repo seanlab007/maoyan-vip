@@ -38,7 +38,7 @@ export default function RegisterPage() {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true)
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data: authData, error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
@@ -48,10 +48,81 @@ export default function RegisterPage() {
           },
         },
       })
+      
       if (error) throw error
+
+      // 等待一小段时间确保 Auth 用户创建完成
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      // 手动创建 profile 和 wallet 记录（如果触发器失败）
+      if (authData.user) {
+        try {
+          // 检查 profile 是否已存在
+          const { data: existingProfile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', authData.user.id)
+            .single()
+
+          if (!existingProfile) {
+            // 创建 profile
+            const { error: profileError } = await supabase
+              .from('profiles')
+              .insert({
+                id: authData.user.id,
+                nickname: data.nickname,
+                avatar_url: null,
+                referral_code: data.referral_code || null,
+              })
+
+            if (profileError) {
+              console.error('创建 profile 失败:', profileError)
+            }
+          }
+
+          // 检查 wallet 是否已存在
+          const { data: existingWallet } = await supabase
+            .from('wallets')
+            .select('id')
+            .eq('user_id', authData.user.id)
+            .single()
+
+          if (!existingWallet) {
+            // 创建 wallet 并赠送 100 积分
+            const { error: walletError } = await supabase
+              .from('wallets')
+              .insert({
+                user_id: authData.user.id,
+                balance: 100,
+                total_earned: 100,
+              })
+
+            if (walletError) {
+              console.error('创建 wallet 失败:', walletError)
+            } else {
+              // 写入注册积分流水
+              await supabase
+                .from('transactions')
+                .insert({
+                  user_id: authData.user.id,
+                  type: 'earn',
+                  source: 'register',
+                  amount: 100,
+                  balance_after: 100,
+                  description: '🎉 注册奖励',
+                })
+            }
+          }
+        } catch (err) {
+          console.error('创建用户数据失败:', err)
+        }
+      }
+
       trackRegister('email')
       toast.success('注册成功！欢迎加入猫眼，已赠送100积分 🎉')
-      navigate('/dashboard')
+      
+      // 跳转到登录页面（因为可能需要邮箱验证）
+      navigate('/login?registered=true')
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '注册失败'
       if (msg.includes('already registered')) {
