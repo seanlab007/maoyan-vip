@@ -24,6 +24,8 @@ const DramaPage = React.lazy(() => import('@/pages/Drama'))
 const DaiizenPointsPage = React.lazy(() => import('@/pages/DaiizenPoints'))
 const LandingPage = React.lazy(() => import('@/pages/LandingPage'))
 const TestAuthPage = React.lazy(() => import('@/pages/TestAuth'))
+const ConsumptionPointsPage = React.lazy(() => import('@/pages/ConsumptionPoints'))
+const GroupBuyPage = React.lazy(() => import('@/pages/GroupBuy'))
 
 // GA4 页面追踪
 function AnalyticsTracker() {
@@ -89,6 +91,19 @@ function AppRoutes() {
                 <DaiizenPointsPage />
               </AppLayout>
             </ProtectedRoute>
+          } />
+
+          <Route path="/consumption-points" element={
+            <ProtectedRoute>
+              <AppLayout>
+                <ConsumptionPointsPage />
+              </AppLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/group-buy" element={
+            <AppLayout>
+              <GroupBuyPage />
+            </AppLayout>
           } />
 
           {/* 兜底 */}
