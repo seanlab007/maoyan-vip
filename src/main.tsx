@@ -18,3 +18,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </QueryClientProvider>
   </React.StrictMode>
 )
+
+// 添加平滑滚动支持
+if ('scrollBehavior' in document.documentElement.style) {
+  document.documentElement.style.scrollBehavior = 'smooth'
+}

@@ -9,6 +9,7 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute'
 import AppLayout from '@/components/layout/AppLayout'
 import '@/styles/drama.css'
 import '@/styles/daiizen-points.css'
+import '@/styles/landing.css'
 
 // 懒加载页面
 const HomePage = React.lazy(() => import('@/pages/Home'))
@@ -21,6 +22,7 @@ const LeaderboardPage = React.lazy(() => import('@/pages/Leaderboard'))
 const CreatorCardPage = React.lazy(() => import('@/pages/CreatorCard'))
 const DramaPage = React.lazy(() => import('@/pages/Drama'))
 const DaiizenPointsPage = React.lazy(() => import('@/pages/DaiizenPoints'))
+const LandingPage = React.lazy(() => import('@/pages/LandingPage'))
 
 // GA4 页面追踪
 function AnalyticsTracker() {
@@ -38,7 +40,7 @@ function AppRoutes() {
       <React.Suspense fallback={<div className="loading-screen"><div className="loading-logo">🐱</div></div>}>
         <Routes>
           {/* 公开页面 */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/u/:username" element={<CreatorCardPage />} />
