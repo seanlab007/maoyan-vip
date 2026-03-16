@@ -1,304 +1,355 @@
-/* daiizen 积分管理页面样式 */
+/* daiizen 积分页面样式 */
 
 .daiizen-points-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
 }
 
-.page-header {
+.daiizen-points-header {
   text-align: center;
-  margin-bottom: 32px;
-}
-
-.page-title {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--red, #E53935);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.title-icon {
-  color: var(--fu-gold, #FFD700);
-}
-
-.page-subtitle {
-  font-size: 16px;
-  color: var(--text-secondary, #999);
-}
-
-.points-tabs {
-  background: transparent;
-}
-
-.points-overview {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 24px;
-}
-
-.points-card {
-  background: linear-gradient(135deg, #E53935 0%, #FF9800 100%);
   color: white;
-  border: none;
+  margin-bottom: 30px;
 }
 
-.points-balance {
-  text-align: center;
-  padding: 32px 0;
+.daiizen-points-header h1 {
+  font-size: 32px;
+  margin: 0 0 10px 0;
 }
 
-.balance-value {
-  font-size: 56px;
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: 8px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.balance-label {
+.daiizen-points-header .subtitle {
   font-size: 16px;
   opacity: 0.9;
+  margin: 0;
 }
 
-.points-stats {
+.daiizen-tabs {
   display: flex;
+  gap: 10px;
   justify-content: center;
-  align-items: center;
-  gap: 24px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
-.stat-item {
-  text-align: center;
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.account-link-card,
-.quick-actions-card {
-  background: var(--card-bg, #1a1a24);
-  border: 1px solid var(--border-color, #2a2a3a);
-}
-
-.linked-status,
-.unlinked-status {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  border-radius: 12px;
-  background: var(--bg-secondary, #14141a);
-}
-
-.status-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.status-icon.success {
-  background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+.daiizen-tab {
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
   color: white;
-}
-
-.status-icon.warning {
-  background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
-  color: white;
-}
-
-.status-text {
-  flex: 1;
-}
-
-.status-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary, #fff);
-  margin-bottom: 4px;
-}
-
-.status-desc {
-  font-size: 14px;
-  color: var(--text-secondary, #999);
-}
-
-.transaction-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color, #2a2a3a);
-}
-
-.transaction-item:hover {
-  background: var(--bg-secondary, #14141a);
-}
-
-.tx-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-secondary, #14141a);
-  color: var(--text-secondary, #999);
-}
-
-.tx-details {
-  flex: 1;
-}
-
-.tx-reason {
   font-size: 16px;
-  font-weight: 500;
-  color: var(--text-primary, #fff);
-  margin-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.tx-time {
-  font-size: 14px;
-  color: var(--text-secondary, #999);
+.daiizen-tab:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.tx-amount {
-  font-size: 20px;
+.daiizen-tab.active {
+  background: white;
+  color: #667eea;
+  border-color: white;
+  font-weight: 600;
+}
+
+.daiizen-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.daiizen-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.daiizen-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.daiizen-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.daiizen-card-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.daiizen-card-value {
+  font-size: 36px;
   font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
 }
 
-.tx-amount.earned {
-  color: #4CAF50;
+.daiizen-card-label {
+  font-size: 14px;
+  color: #666;
 }
 
-.tx-amount.spent {
-  color: #E53935;
+.daiizen-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.daiizen-button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.daiizen-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.daiizen-button-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.daiizen-button-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.daiizen-button-secondary {
+  background: #f5f7fa;
+  color: #333;
+  border: 2px solid #e0e0e0;
+}
+
+.daiizen-button-secondary:hover:not(:disabled) {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.daiizen-info {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.daiizen-info h3 {
+  margin: 0 0 12px 0;
+  color: #856404;
+}
+
+.daiizen-info ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #856404;
+}
+
+.daiizen-info li {
+  margin-bottom: 8px;
 }
 
 .empty-state {
   text-align: center;
-  padding: 64px 24px;
-  color: var(--text-secondary, #999);
+  padding: 60px 20px;
+  color: #999;
 }
 
-.rules-list {
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.daiizen-rules {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 20px;
 }
 
 .rule-item {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  gap: 20px;
   padding: 20px;
-  background: var(--bg-secondary, #14141a);
+  background: #f8f9fa;
   border-radius: 12px;
-  border: 1px solid var(--border-color, #2a2a3a);
+  align-items: flex-start;
 }
 
 .rule-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  font-size: 48px;
+}
+
+.rule-content h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.rule-content p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Modal 样式 */
+.daiizen-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--fu-gold, #FFD700) 0%, var(--orange, #FF9800) 100%);
-  color: #000;
-  flex-shrink: 0;
+  z-index: 1000;
 }
 
-.rule-content {
-  flex: 1;
+.daiizen-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.daiizen-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 
-.rule-title {
-  font-size: 16px;
-  color: var(--text-primary, #fff);
-}
-
-.rules-tips {
-  background: linear-gradient(135deg, rgba(229, 57, 53, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
-  border: 1px solid var(--red, #E53935);
-  border-radius: 12px;
-  padding: 24px;
-}
-
-.rules-tips h4 {
-  color: var(--red, #E53935);
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.rules-tips ul {
+.daiizen-modal-header h2 {
   margin: 0;
-  padding-left: 20px;
+  font-size: 24px;
+  color: #333;
 }
 
-.rules-tips li {
-  font-size: 14px;
-  color: var(--text-primary, #fff);
+.daiizen-close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.daiizen-close-button:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.daiizen-modal-body {
+  margin-bottom: 24px;
+}
+
+.daiizen-form-group {
+  margin-bottom: 20px;
+}
+
+.daiizen-form-group label {
+  display: block;
   margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
 }
 
-.dialog-footer {
+.daiizen-form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.daiizen-form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.daiizen-help-text {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.daiizen-modal-footer {
   display: flex;
-  justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
+  justify-content: flex-end;
 }
 
-@media (max-width: 768px) {
-  .daiizen-points-page {
-    padding: 16px;
-  }
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: white;
+  font-size: 18px;
+}
 
-  .page-title {
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .daiizen-points-header h1 {
     font-size: 24px;
   }
 
-  .points-overview {
+  .daiizen-tabs {
+    flex-direction: column;
+  }
+
+  .daiizen-tab {
+    width: 100%;
+  }
+
+  .daiizen-cards {
     grid-template-columns: 1fr;
   }
 
-  .balance-value {
-    font-size: 48px;
+  .daiizen-actions {
+    grid-template-columns: 1fr;
   }
 
-  .linked-status,
-  .unlinked-status {
-    flex-direction: column;
-    text-align: center;
+  .daiizen-modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .daiizen-button {
+    width: 100%;
   }
 }
