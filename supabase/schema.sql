@@ -131,6 +131,92 @@ CREATE TABLE public.daiizen_sync_logs (
   synced_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- ── Creator Card 达人名片 ──────────────────────────────────
+CREATE TABLE public.creator_cards (
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id         UUID NOT NULL UNIQUE REFERENCES public.profiles(id) ON DELETE CASCADE,
+  level           TEXT NOT NULL DEFAULT 'silver' CHECK (level IN ('silver', 'gold', 'platinum', 'black_elite')),
+  credit_limit    NUMERIC(10,2) NOT NULL,                    -- 信用额度（美元）
+  credit_used     NUMERIC(10,2) NOT NULL DEFAULT 0,          -- 已使用额度
+  social_platforms TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],  -- 社交平台列表
+  platform_links  JSONB DEFAULT '{}',                        -- 平台链接映射
+  bio             TEXT,
+  tags            TEXT[] DEFAULT ARRAY[]::TEXT[],
+  status          TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'suspended')),
+  approved_at     TIMESTAMPTZ,
+  approved_by     UUID REFERENCES public.profiles(id),
+  rejection_reason TEXT,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ── 短剧内容 ──────────────────────────────────────────────
+CREATE TABLE public.short_dramas (
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title           TEXT NOT NULL,
+  description     TEXT,
+  thumbnail_url   TEXT,
+  video_url       TEXT,
+  duration        INTEGER,                                  -- 时长（秒）
+  views           BIGINT NOT NULL DEFAULT 0,
+  likes           BIGINT NOT NULL DEFAULT 0,
+  shares          BIGINT NOT NULL DEFAULT 0,
+  creator_id      UUID REFERENCES public.profiles(id),
+  genre           TEXT[],                                   -- 类型标签
+  target_amount   NUMERIC(12,2) NOT NULL,                    -- 目标融资额
+  raised_amount   NUMERIC(12,2) NOT NULL DEFAULT 0,         -- 已筹集金额
+  roi_percent     NUMERIC(5,2) NOT NULL DEFAULT 50.00,      -- 预期回报率（百分比）
+  status          TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('draft', 'active', 'funded', 'completed', 'cancelled')),
+  is_featured     BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ── 短剧投资记录 ──────────────────────────────────────────
+CREATE TABLE public.drama_investments (
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  drama_id        UUID NOT NULL REFERENCES public.short_dramas(id) ON DELETE CASCADE,
+  investor_id     UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  amount          NUMERIC(10,2) NOT NULL,                    -- 投资金额（美元）
+  roi_percent     NUMERIC(5,2) NOT NULL DEFAULT 50.00,      -- 回报率
+  expected_return NUMERIC(10,2) NOT NULL,                    -- 预期回报
+  status          TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'completed', 'cancelled', 'refunded')),
+  investment_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  completion_date TIMESTAMPTZ,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ── 内容还款记录（Dine & Post）──────────────────────────
+CREATE TABLE public.content_repayments (
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id         UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  investment_id   UUID REFERENCES public.drama_investments(id),
+  amount          NUMERIC(10,2) NOT NULL,                    -- 还款金额（美元）
+  platform        TEXT NOT NULL,                             -- 发布平台
+  content_url     TEXT,                                      -- 内容链接
+  content_type    TEXT NOT NULL CHECK (content_type IN ('video', 'post', 'story', 'live')),
+  description     TEXT,
+  status          TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'verified', 'rejected', 'completed')),
+  verified_at     TIMESTAMPTZ,
+  rejection_reason TEXT,
+  dark_tokens_earned BIGINT NOT NULL DEFAULT 0,              -- 获得的 DARK 代币
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ── 社交奖励 ──────────────────────────────────────────────
+CREATE TABLE public.social_rewards (
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id         UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  platform        TEXT NOT NULL,
+  reward_type     TEXT NOT NULL CHECK (reward_type IN ('share', 'like', 'comment', 'follow', 'invite')),
+  action_count    INTEGER NOT NULL DEFAULT 1,
+  dark_tokens     BIGINT NOT NULL DEFAULT 10,
+  description     TEXT,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- ============================================================
 -- 索引
 -- ============================================================
@@ -142,6 +228,20 @@ CREATE INDEX idx_profiles_username ON public.profiles(username);
 CREATE INDEX idx_profiles_referral_code ON public.profiles(referral_code);
 CREATE INDEX idx_profiles_level ON public.profiles(level);
 
+-- Creator Card 索引
+CREATE INDEX idx_creator_cards_user_id ON public.creator_cards(user_id);
+CREATE INDEX idx_creator_cards_level ON public.creator_cards(level);
+CREATE INDEX idx_creator_cards_status ON public.creator_cards(status);
+
+-- 短剧索引
+CREATE INDEX idx_short_dramas_status ON public.short_dramas(status, is_featured);
+CREATE INDEX idx_short_dramas_creator ON public.short_dramas(creator_id);
+CREATE INDEX idx_drama_investments_drama ON public.drama_investments(drama_id);
+CREATE INDEX idx_drama_investments_investor ON public.drama_investments(investor_id);
+CREATE INDEX idx_content_repayments_user ON public.content_repayments(user_id);
+CREATE INDEX idx_content_repayments_status ON public.content_repayments(status);
+CREATE INDEX idx_social_rewards_user ON public.social_rewards(user_id);
+
 -- ============================================================
 -- Row Level Security (RLS)
 -- ============================================================
@@ -152,6 +252,11 @@ ALTER TABLE public.referrals ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.checkins ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.daiizen_sync_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.creator_cards ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.short_dramas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.drama_investments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.content_repayments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.social_rewards ENABLE ROW LEVEL SECURITY;
 
 -- profiles：自己可读写，其他人可读（公开资料）
 CREATE POLICY "profiles_select_all" ON public.profiles FOR SELECT USING (TRUE);
@@ -179,6 +284,21 @@ CREATE POLICY "products_select_all" ON public.products FOR SELECT USING (TRUE);
 
 -- daiizen_sync_logs：只能读自己的
 CREATE POLICY "daiizen_sync_own" ON public.daiizen_sync_logs FOR SELECT USING (auth.uid() = user_id);
+
+-- creator_cards：只能读写自己的
+CREATE POLICY "creator_cards_own" ON public.creator_cards FOR ALL USING (auth.uid() = user_id);
+
+-- short_dramas：所有人可读
+CREATE POLICY "short_dramas_select_all" ON public.short_dramas FOR SELECT USING (status = 'active');
+
+-- drama_investments：只能读写自己的
+CREATE POLICY "drama_investments_own" ON public.drama_investments FOR ALL USING (auth.uid() = investor_id);
+
+-- content_repayments：只能读写自己的
+CREATE POLICY "content_repayments_own" ON public.content_repayments FOR ALL USING (auth.uid() = user_id);
+
+-- social_rewards：只能读写自己的
+CREATE POLICY "social_rewards_own" ON public.social_rewards FOR ALL USING (auth.uid() = user_id);
 
 -- ============================================================
 -- 函数与触发器
@@ -249,6 +369,14 @@ CREATE TRIGGER trg_wallets_updated_at BEFORE UPDATE ON public.wallets
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 CREATE TRIGGER trg_orders_updated_at BEFORE UPDATE ON public.orders
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+CREATE TRIGGER trg_creator_cards_updated_at BEFORE UPDATE ON public.creator_cards
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+CREATE TRIGGER trg_short_dramas_updated_at BEFORE UPDATE ON public.short_dramas
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+CREATE TRIGGER trg_drama_investments_updated_at BEFORE UPDATE ON public.drama_investments
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+CREATE TRIGGER trg_content_repayments_updated_at BEFORE UPDATE ON public.content_repayments
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
 -- 达人等级自动升级函数
 CREATE OR REPLACE FUNCTION public.update_user_level(p_user_id UUID)
@@ -278,3 +406,14 @@ INSERT INTO public.products (name, description, category, price, points_price, s
 ('美股投资额度¥500', '猫眼×大以太金融联名额度', 'finance', NULL, 45000, 20, 3),
 ('专业拍摄服务1小时', '猫眼合作摄影师上门拍摄', 'service', 800, 70000, 10, 4),
 ('积分直接提现¥10', '1000积分=¥10，T+1到账', 'cashout', 10, 1000, 9999, 5);
+
+-- ============================================================
+-- 示例短剧数据
+-- ============================================================
+INSERT INTO public.short_dramas (title, description, genre, target_amount, raised_amount, roi_percent, status, is_featured, views, likes, shares, duration) VALUES
+('《总裁的秘密》', '霸道总裁爱上小职员，甜宠剧', ARRAY['甜宠', '职场'], 50000, 35000, 50.00, 'active', TRUE, 1250000, 89000, 45000, 1800),
+('《穿越时空遇见你》', '现代女孩穿越古代，开启奇幻爱情', ARRAY['穿越', '爱情', '奇幻'], 80000, 60000, 50.00, 'active', TRUE, 2100000, 156000, 78000, 2400),
+('《豪门恩怨》', '豪门世家争权夺利，商战悬疑', ARRAY['商战', '悬疑', '家族'], 100000, 75000, 50.00, 'active', TRUE, 3400000, 234000, 117000, 3600),
+('《青春校园》', '校园爱情，青春励志', ARRAY['青春', '校园', '励志'], 30000, 22000, 50.00, 'active', FALSE, 890000, 67000, 33000, 1500),
+('《重生逆袭》', '重生逆袭人生，爽文改编', ARRAY['重生', '逆袭', '爽文'], 60000, 45000, 50.00, 'active', FALSE, 1680000, 123000, 61000, 2100),
+('《古装权谋》', '古代宫廷权谋斗争', ARRAY['古装', '权谋', '历史'], 120000, 90000, 50.00, 'active', TRUE, 4200000, 298000, 149000, 4200);
