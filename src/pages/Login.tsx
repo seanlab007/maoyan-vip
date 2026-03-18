@@ -39,7 +39,7 @@ export default function LoginPage() {
       toast.success('验证码已发送，请查收短信')
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '发送失败'
-      toast.error(msg.includes('not enabled') ? '手机登录暂未开放，请使用邮筱登录' : msg)
+      toast.error(msg.includes('not enabled') ? '手机登录暂未开放，请使用邮箱登录' : msg)
     } finally {
       setIsLoading(false)
     }
@@ -65,7 +65,7 @@ export default function LoginPage() {
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email || !password) { toast.error('请填写邮筱和密码'); return }
+    if (!email || !password) { toast.error('请填写邮箱和密码'); return }
     setIsLoading(true)
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
@@ -75,7 +75,7 @@ export default function LoginPage() {
       navigate(from, { replace: true })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '登录失败'
-      toast.error(msg.includes('Invalid login credentials') ? '邮筱或密码错误' : msg)
+      toast.error(msg.includes('Invalid login credentials') ? '邮箱或密码错误' : msg)
     } finally {
       setIsLoading(false)
     }
@@ -116,7 +116,7 @@ export default function LoginPage() {
               style={{ flex: 1, padding: '8px 0', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600,
                 background: mode === m ? 'linear-gradient(135deg, #f6c90e, #f6a800)' : 'transparent',
                 color: mode === m ? '#000' : '#9ba3b8', transition: 'all 0.2s' }}>
-              {m === 'phone' ? '📱 手机号' : '📧 邮筱'}
+              {m === 'phone' ? '📱 手机号' : '📧 邮箱'}
             </button>
           ))}
         </div>
@@ -153,7 +153,7 @@ export default function LoginPage() {
         {mode === 'email' && (
           <form onSubmit={handleEmailLogin} className="auth-form">
             <div className="field">
-              <label>邮筱</label>
+              <label>邮箱</label>
               <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="your@email.com" />
             </div>
             <div className="field">

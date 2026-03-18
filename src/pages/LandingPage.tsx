@@ -225,7 +225,7 @@ export default function LandingPage() {
                   {HOT_DRAMAS.map(drama => (
                     <div key={drama.id} style={{ background: '#1c1f28', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)', overflow: 'hidden' }}>
                       {drama.hot && <div style={{ background: 'linear-gradient(135deg, #E53935, #f066aa)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 12px' }}>🔥 HOT</div>}
-                      <div style={{ height: 112, overflow: 'hidden', background: '#0c0d10' }}><img src={drama.cover} alt={drama.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} /></div>
+                      <div style={{ height: 160, overflow: 'hidden', background: '#0c0d10', borderRadius: '12px 12px 0 0' }}><img src={drama.cover} alt={drama.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} /></div>
                       <div style={{ padding: 16 }}>
                         <div style={{ fontSize: 12, color: '#9d6dff', marginBottom: 4 }}>{drama.genre}</div>
                         <div style={{ fontWeight: 700, marginBottom: 4, fontSize: 14 }}>{drama.title}</div>
@@ -354,7 +354,7 @@ export default function LandingPage() {
             {HOT_DRAMAS.map(drama => (
               <div key={drama.id} style={{ background: '#14161c', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)', overflow: 'hidden', transition: 'all 0.2s' }}>
                 {drama.hot && <div style={{ background: 'linear-gradient(135deg, #E53935, #f066aa)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 12px' }}>🔥 HOT</div>}
-                <div style={{ height: 144, overflow: 'hidden', background: '#0c0d10' }}><img src={drama.cover} alt={drama.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} /></div>
+                <div style={{ height: 144, overflow: 'hidden', background: '#0c0d10' }}><img src={drama.cover} alt={drama.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} /></div>
                 <div style={{ padding: 20 }}>
                   <div style={{ fontSize: 12, color: '#9d6dff', marginBottom: 4 }}>{drama.genre}</div>
                   <div style={{ fontWeight: 700, marginBottom: 8 }}>{drama.title}</div>
