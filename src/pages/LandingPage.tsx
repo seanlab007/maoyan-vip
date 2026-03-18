@@ -86,12 +86,12 @@ export default function LandingPage() {
               <span style={{ fontSize: 12, padding: '4px 12px', borderRadius: 99, background: 'rgba(34,211,160,0.1)', border: '1px solid rgba(34,211,160,0.25)', color: '#22d3a0' }}>✦ 已与 daiizen.com 打通</span>
             </div>
             <h1 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 24 }}>
-              <span style={{ background: 'linear-gradient(135deg, #f6c90e, #ffd94a, #f6a800)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>信任</span>，<br />
-              是你最大的<br />
-              <span style={{ background: 'linear-gradient(135deg, #f6c90e, #f066aa, #9d6dff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>资产</span>
+              <span style={{ background: 'linear-gradient(135deg, #f6c90e, #ffd94a, #f6a800)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>要搞钱</span>，<br />
+              来猫眼<br />
+              <span style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, background: 'linear-gradient(135deg, #22d3a0, #4a9eff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>💰 搞钱 · 🤝 社交 · 🌿 变美</span>
             </h1>
             <p style={{ color: '#9ba3b8', fontSize: 18, marginBottom: 32, lineHeight: 1.7 }}>
-              把你的粉丝、朋友圈、社交影响力，变成可计量、可交易、可增值的<strong style={{ color: '#f0f2f8' }}>信任积分</strong>。每一次分享、每一笔成交，都在为你累积财富。
+              三大板块，一个 App 搞定：<strong style={{ color: '#f6c90e' }}>搞钱</strong>（签到/消费积分/短剧投资）、<strong style={{ color: '#4a9eff' }}>社交</strong>（短剧投资/排行榜/名片）、<strong style={{ color: '#22d3a0' }}>变美</strong>（健康打卡/寿命预测）。
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 40 }}>
               <Link to="/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg, #f6c90e, #f6a800)', color: '#000', fontWeight: 700, padding: '12px 24px', borderRadius: 99, fontSize: 14, textDecoration: 'none' }}>
@@ -153,8 +153,8 @@ export default function LandingPage() {
       <section id="features" style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <h2 style={{ fontSize: 40, fontWeight: 900, marginBottom: 16 }}>四大核心功能</h2>
-            <p style={{ color: '#9ba3b8' }}>每一个功能都是一条变现通道</p>
+            <h2 style={{ fontSize: 40, fontWeight: 900, marginBottom: 16 }}>三大核心板块</h2>
+            <p style={{ color: '#9ba3b8' }}>搞钱 · 社交 · 变美，每一个板块都是一条变现通道</p>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 40 }}>
             {[{ key: 'creator', icon: '💳', label: 'Creator Card' }, { key: 'drama', icon: '🎬', label: '短剧投资' }, { key: 'consume', icon: '🧾', label: '消费积分' }, { key: 'groupbuy', icon: '👥', label: '万人团购' }].map(tab => (
