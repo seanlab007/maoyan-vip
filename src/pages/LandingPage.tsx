@@ -10,17 +10,18 @@ const TIER_LADDER = [
   { minPeople: 10000, discountPct: 50, label: "万人团",  badge: "👑 最高折扣" },
 ]
 
+const CDN = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663405311158/X9MpYGJw9J7Db3VAodtwJG'
 const HOT_DRAMAS = [
-  { id: 1, title: "总裁的秘密", genre: "都市爱情", views: "1.2亿", rating: 9.2, investors: 8432, cover: "🎬", hot: true },
-  { id: 2, title: "重生之巅峰", genre: "逆袭爽文", views: "8800万", rating: 9.0, investors: 6218, cover: "⚡", hot: true },
-  { id: 3, title: "她的秘密花园", genre: "甜宠", views: "6500万", rating: 8.8, investors: 4890, cover: "🌸", hot: false },
-  { id: 4, title: "商战风云", genre: "商战", views: "5200万", rating: 8.7, investors: 3654, cover: "💼", hot: false },
+  { id: 1, title: "夜色温柔", genre: "都市爱情", views: "1.2亿", rating: 9.2, investors: 8432, cover: `${CDN}/drama2_23160c93.webp`, hot: true },
+  { id: 2, title: "心动不回头", genre: "青春甜宠", views: "8800万", rating: 9.0, investors: 6218, cover: `${CDN}/drama1_5edaa483.webp`, hot: true },
+  { id: 3, title: "冰霜未结", genre: "霸总虐恋", views: "6500万", rating: 8.8, investors: 4890, cover: `${CDN}/drama3_830d80e1.jpg`, hot: false },
+  { id: 4, title: "婚夜燃尽", genre: "商战爱情", views: "5200万", rating: 8.7, investors: 3654, cover: `${CDN}/drama5_9cba5735.jpg`, hot: false },
 ]
 
 const TOP_CREATORS = [
-  { name: "小美同学", platform: "抖音", followers: "234万", gmv: "¥128万", avatar: "👩", level: "钻石" },
-  { name: "科技达人Leo", platform: "小红书", followers: "89万", gmv: "¥56万", avatar: "👨", level: "铂金" },
-  { name: "美食探店官", platform: "微博", followers: "156万", gmv: "¥89万", avatar: "🧑", level: "钻石" },
+  { name: "小美同学", platform: "抖音", followers: "234万", gmv: "¥128万", avatar: `${CDN}/avatar_girl1_0ece4605.webp`, level: "钻石" },
+  { name: "科技达人Leo", platform: "小红书", followers: "89万", gmv: "¥56万", avatar: `${CDN}/avatar_boy2_ef939622.jpg`, level: "铂金" },
+  { name: "美食探店官", platform: "微博", followers: "156万", gmv: "¥89万", avatar: `${CDN}/avatar_girl2_99b8dcf9.jpg`, level: "钻石" },
 ]
 
 function CountUp({ end, suffix = '', prefix = '' }: { end: number; suffix?: string; prefix?: string }) {
@@ -203,7 +204,7 @@ export default function LandingPage() {
                   {TOP_CREATORS.map((c, i) => (
                     <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#1c1f28', borderRadius: 12, padding: 12, border: '1px solid rgba(255,255,255,0.06)', marginBottom: 8 }}>
                       <span style={{ color: '#f6c90e', fontWeight: 700, fontSize: 14, width: 20 }}>#{i + 1}</span>
-                      <span style={{ fontSize: 20 }}>{c.avatar}</span>
+                      <img src={c.avatar} alt={c.name} style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(246,201,14,0.4)' }} />
                       <div style={{ flex: 1 }}><div style={{ fontSize: 14, fontWeight: 500 }}>{c.name}</div><div style={{ fontSize: 12, color: '#5a6278' }}>{c.platform} · {c.followers}</div></div>
                       <div style={{ textAlign: 'right' }}><div style={{ fontSize: 12, color: '#22d3a0' }}>{c.gmv}</div><div style={{ fontSize: 12, color: '#9ba3b8' }}>{c.level}</div></div>
                     </div>
@@ -224,7 +225,7 @@ export default function LandingPage() {
                   {HOT_DRAMAS.map(drama => (
                     <div key={drama.id} style={{ background: '#1c1f28', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)', overflow: 'hidden' }}>
                       {drama.hot && <div style={{ background: 'linear-gradient(135deg, #E53935, #f066aa)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 12px' }}>🔥 HOT</div>}
-                      <div style={{ height: 112, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, background: '#0c0d10' }}>{drama.cover}</div>
+                      <div style={{ height: 112, overflow: 'hidden', background: '#0c0d10' }}><img src={drama.cover} alt={drama.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} /></div>
                       <div style={{ padding: 16 }}>
                         <div style={{ fontSize: 12, color: '#9d6dff', marginBottom: 4 }}>{drama.genre}</div>
                         <div style={{ fontWeight: 700, marginBottom: 4, fontSize: 14 }}>{drama.title}</div>
@@ -353,7 +354,7 @@ export default function LandingPage() {
             {HOT_DRAMAS.map(drama => (
               <div key={drama.id} style={{ background: '#14161c', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)', overflow: 'hidden', transition: 'all 0.2s' }}>
                 {drama.hot && <div style={{ background: 'linear-gradient(135deg, #E53935, #f066aa)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 12px' }}>🔥 HOT</div>}
-                <div style={{ height: 144, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64, background: '#0c0d10' }}>{drama.cover}</div>
+                <div style={{ height: 144, overflow: 'hidden', background: '#0c0d10' }}><img src={drama.cover} alt={drama.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} /></div>
                 <div style={{ padding: 20 }}>
                   <div style={{ fontSize: 12, color: '#9d6dff', marginBottom: 4 }}>{drama.genre}</div>
                   <div style={{ fontWeight: 700, marginBottom: 8 }}>{drama.title}</div>
@@ -383,7 +384,7 @@ export default function LandingPage() {
               <div key={c.name} style={{ background: '#14161c', borderRadius: 16, padding: 24, border: `1px solid ${i === 0 ? 'rgba(246,201,14,0.4)' : 'rgba(255,255,255,0.06)'}`, ...(i === 0 ? { boxShadow: '0 0 30px rgba(246,201,14,0.1)' } : {}) }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                   <div style={{ fontSize: 24, fontWeight: 900, ...(i === 0 ? { background: 'linear-gradient(135deg, #f6c90e, #ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' } : { color: '#5a6278' }) }}>#{i + 1}</div>
-                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #f6c90e, #f6a800)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{c.avatar}</div>
+                  <img src={c.avatar} alt={c.name} style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(246,201,14,0.4)' }} />
                   <div><div style={{ fontWeight: 700 }}>{c.name}</div><div style={{ fontSize: 12, color: '#9ba3b8' }}>{c.platform} · {c.level}</div></div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>

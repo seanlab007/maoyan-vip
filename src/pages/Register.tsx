@@ -119,10 +119,17 @@ export default function RegisterPage() {
       }
 
       trackRegister('email')
-      toast.success('注册成功！欢迎加入猫眼，已赠送100积分 🎉')
       
-      // 跳转到登录页面（因为可能需要邮箱验证）
-      navigate('/login?registered=true')
+      // 根据是否有 session 决定跳转
+      if (authData.session) {
+        // 无需邮箱验证，直接登录成功
+        toast.success('注册成功！欢迎加入猫眼，已赠送100积分 🎉')
+        navigate('/dashboard', { replace: true })
+      } else {
+        // 需要邮箱验证
+        toast.success('注册成功！请查收邮件并点击验证链接后登录 📧', { duration: 8000 })
+        navigate('/login?registered=true')
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '注册失败'
       if (msg.includes('already registered')) {
