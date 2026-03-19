@@ -91,7 +91,7 @@ export default function CreatorCardPage() {
           <div style={{ fontSize: 40 }}>🎴</div>
           <div>
             <h1 style={{ fontSize: 28, fontWeight: 800, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>达人名片</h1>
-            <p style={{ color: 'var(--text2)', fontSize: 14 }}>创建专属名片 · 分享获积分 · 积分兑换 DARK 代币</p>
+            <p style={{ color: 'var(--text2)', fontSize: 14 }}>创建专属名片 · 分享获积分 · 积分兑换小猫奖励</p>
           </div>
         </div>
 

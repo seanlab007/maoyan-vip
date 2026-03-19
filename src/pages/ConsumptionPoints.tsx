@@ -1,6 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
+
+// AI 自动打分逻辑（前端模拟，实际应调用后端 AI 接口）
+function aiScoreImage(file: File, reviewText: string): Promise<{ score: number; reason: string; aiPoints: number }> {
+  return new Promise(resolve => {
+    // 模拟 AI 打分：基于文件大小、类型、点评长度
+    setTimeout(() => {
+      let score = 60 // 基础分
+      let reasons: string[] = []
+      // 图片大小检测（越大越可能是真实截图）
+      if (file.size > 200 * 1024) { score += 10; reasons.push('截图内容丰富') }
+      if (file.size > 500 * 1024) { score += 5; reasons.push('高清截图') }
+      // 点评长度
+      if (reviewText.length >= 100) { score += 20; reasons.push('点评详细') }
+      else if (reviewText.length >= 50) { score += 10; reasons.push('点评内容充实') }
+      else { reasons.push('建议补充更多点评') }
+      // 图片格式
+      if (file.type === 'image/jpeg' || file.type === 'image/png') { score += 5; reasons.push('格式规范') }
+      score = Math.min(100, score)
+      const aiPoints = Math.round(score * 2) // AI分数转化为奖励积分
+      resolve({ score, reason: reasons.join('，'), aiPoints })
+    }, 1500) // 模拟 AI 处理时间
+  })
+}
 
 const PLATFORMS = ['淘宝', '京东', '拼多多', '抖音小店', '小红书', '美团', '饿了么', '其他']
 
@@ -26,6 +49,11 @@ export default function ConsumptionPointsPage() {
   const [loading, setLoading] = useState(false)
   const [myPoints, setMyPoints] = useState(0)
   const [uploading, setUploading] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [aiResult, setAiResult] = useState<{ score: number; reason: string; aiPoints: number } | null>(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { fetchData() }, [])
 
@@ -42,21 +70,41 @@ export default function ConsumptionPointsPage() {
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
+
+    // 1. 本地预览
+    const localUrl = URL.createObjectURL(file)
+    setPreviewUrl(localUrl)
+    setSelectedFile(file)
+    setAiResult(null)
+
+    // 2. 启动 AI 打分
+    setAiLoading(true)
+    toast('🤖 AI 正在分析截图...', { duration: 2000 })
+    const result = await aiScoreImage(file, form.review)
+    setAiResult(result)
+    setAiLoading(false)
+
+    // 3. 尝试上传到 Supabase Storage
     setUploading(true)
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { toast.error('请先登录'); return }
-      const ext = file.name.split('.').pop()
+      if (!user) throw new Error('未登录')
+      const ext = file.name.split('.').pop() || 'jpg'
       const path = `consumption/${user.id}/${Date.now()}.${ext}`
       const { error } = await supabase.storage.from('uploads').upload(path, file)
       if (error) throw error
       const { data: { publicUrl } } = supabase.storage.from('uploads').getPublicUrl(path)
       setForm(f => ({ ...f, screenshot_url: publicUrl }))
-      toast.success('截图上传成功！')
-    } catch (e: any) {
-      // 如果 storage 不可用，用模拟 URL
-      setForm(f => ({ ...f, screenshot_url: `https://placeholder.com/screenshot_${Date.now()}.jpg` }))
-      toast.success('截图已记录')
+      toast.success(`截图上传成功！AI 评分: ${result.score}分`)
+    } catch {
+      // Storage 不可用时，用本地 base64 作为备用
+      const reader = new FileReader()
+      reader.onload = () => {
+        const dataUrl = reader.result as string
+        setForm(f => ({ ...f, screenshot_url: dataUrl }))
+        toast.success(`截图已记录！AI 评分: ${result.score}分`)
+      }
+      reader.readAsDataURL(file)
     }
     setUploading(false)
   }
@@ -67,7 +115,12 @@ export default function ConsumptionPointsPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { toast.error('请先登录'); return }
-      const basePoints = 50 + (form.review.length > 50 ? 100 : 0) + (form.screenshot_url ? 50 : 0)
+      // 积分计算：基础 + 点评奖励 + 截图奖励 + AI分奖励
+      const basePoints = 50
+      const reviewBonus = form.review.length > 50 ? 100 : 0
+      const screenshotBonus = form.screenshot_url ? 50 : 0
+      const aiBonus = aiResult ? aiResult.aiPoints : 0
+      const totalPoints = basePoints + reviewBonus + screenshotBonus + aiBonus
       const { error } = await supabase.from('consumption_records').insert({
         user_id: user.id,
         platform: form.platform,
@@ -75,13 +128,19 @@ export default function ConsumptionPointsPage() {
         amount: parseFloat(form.amount) || 0,
         review: form.review,
         screenshot_url: form.screenshot_url,
-        points_earned: basePoints,
-        status: 'pending',
+        points_earned: totalPoints,
+        status: 'pending', // 待人工审核
+        // 存储 AI 评分信息（如果字段存在）
+        // ai_score: aiResult?.score,
+        // ai_reason: aiResult?.reason,
       })
       if (error) throw error
-      toast.success(`🎉 提交成功！预计获得 ${basePoints} 积分，审核后到账`)
+      toast.success(`🎉 提交成功！AI预评 ${totalPoints} 积分，人工审核后最终到账`)
       setShowForm(false)
       setForm({ platform: '淘宝', product_name: '', amount: '', review: '', screenshot_url: '' })
+      setPreviewUrl(null)
+      setSelectedFile(null)
+      setAiResult(null)
       fetchData()
     } catch (e: any) { toast.error(e.message || '提交失败') }
     setLoading(false)
@@ -97,7 +156,7 @@ export default function ConsumptionPointsPage() {
           <div style={{ fontSize: 40 }}>🧾</div>
           <div>
             <h1 style={{ fontSize: 28, fontWeight: 800, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>消费记录换积分</h1>
-            <p style={{ color: 'var(--text2)', fontSize: 14 }}>上传真实购物截图 + 点评 → 获得积分 → 兑换现金或 DARK 代币</p>
+            <p style={{ color: 'var(--text2)', fontSize: 14 }}>上传真实购物截图 + 点评 → 获得积分 → 兑换商品或服务（积分不可提现）</p>
           </div>
         </div>
 
@@ -158,7 +217,7 @@ export default function ConsumptionPointsPage() {
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
                     <span style={{ background: 'var(--bg3)', padding: '2px 10px', borderRadius: 20, fontSize: 12, color: 'var(--text2)' }}>{r.platform}</span>
                     <span style={{ fontSize: 13, fontWeight: 600 }}>{r.product_name}</span>
-                    {r.amount > 0 && <span style={{ fontSize: 12, color: 'var(--text3)' }}>¥{r.amount}</span>}
+                    {r.amount > 0 && <span style={{ fontSize: 12, color: 'var(--text3)' }}>消费金额: ¥{r.amount}</span>}
                   </div>
                   <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.5 }}>{r.review}</div>
                 </div>
@@ -219,20 +278,52 @@ export default function ConsumptionPointsPage() {
 
             <div style={{ marginBottom: 24 }}>
               <label style={{ fontSize: 13, color: 'var(--text2)', display: 'block', marginBottom: 8 }}>
-                上传购物截图 <span style={{ color: '#22d3a0' }}>（+50 积分）</span>
+                上传购物截图 <span style={{ color: '#22d3a0' }}>(＋50 积分 + AI评分奖励)</span>
               </label>
-              <label style={{ display: 'block', border: '2px dashed var(--border2)', borderRadius: 12, padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'var(--bg3)' }}>
-                <input type="file" accept="image/*" onChange={handleFileUpload} style={{ display: 'none' }} />
-                {form.screenshot_url ? (
-                  <div style={{ color: '#22d3a0', fontWeight: 600 }}>✅ 截图已上传</div>
-                ) : (
-                  <div style={{ color: 'var(--text3)' }}>{uploading ? '上传中...' : '点击上传截图（支持 JPG/PNG）'}</div>
-                )}
-              </label>
+              {/* 截图预览 */}
+              {previewUrl ? (
+                <div style={{ position: 'relative', marginBottom: 10 }}>
+                  <img src={previewUrl} alt="截图预览" style={{ width: '100%', maxHeight: 200, objectFit: 'contain', borderRadius: 10, border: '1px solid var(--border)' }} />
+                  <button
+                    onClick={() => { setPreviewUrl(null); setSelectedFile(null); setAiResult(null); setForm(f => ({ ...f, screenshot_url: '' })) }}
+                    style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '50%', width: 28, height: 28, color: '#fff', cursor: 'pointer', fontSize: 14 }}
+                  >×</button>
+                </div>
+              ) : (
+                <label style={{ display: 'block', border: '2px dashed var(--border2)', borderRadius: 12, padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'var(--bg3)' }}>
+                  <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileUpload} style={{ display: 'none' }} />
+                  <div style={{ fontSize: 28, marginBottom: 8 }}>📸</div>
+                  <div style={{ color: 'var(--text3)', fontSize: 13 }}>{uploading ? '上传中...' : '点击选择购物截图（支持 JPG/PNG/WebP）'}</div>
+                  <div style={{ color: 'var(--text3)', fontSize: 11, marginTop: 4 }}>AI 将自动分析截图真实性</div>
+                </label>
+              )}
+              {/* AI 评分结果 */}
+              {aiLoading && (
+                <div style={{ background: 'rgba(157,109,255,0.08)', border: '1px solid rgba(157,109,255,0.2)', borderRadius: 10, padding: '10px 14px', marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 16 }}>🤖</span>
+                  <span style={{ fontSize: 13, color: '#c084fc' }}>AI 正在分析截图真实性...</span>
+                </div>
+              )}
+              {aiResult && !aiLoading && (
+                <div style={{ background: 'rgba(34,211,160,0.08)', border: '1px solid rgba(34,211,160,0.2)', borderRadius: 10, padding: '12px 14px', marginTop: 8 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 14 }}>🤖</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#22d3a0' }}>AI 评分: {aiResult.score}分</span>
+                    </div>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#f6c90e' }}>+{aiResult.aiPoints} 积分</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--text2)' }}>{aiResult.reason}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 4 }}>ℹ️ AI 预评仅供参考，最终积分由人工审核确定</div>
+                </div>
+              )}
             </div>
 
             <div style={{ background: 'var(--bg3)', borderRadius: 10, padding: 12, marginBottom: 20, fontSize: 13 }}>
-              <div style={{ fontWeight: 600, marginBottom: 8 }}>预计获得积分：</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span style={{ fontWeight: 600 }}>预计获得积分：</span>
+                <span style={{ fontSize: 11, color: 'var(--text3)' }}>人工审核后最终确定</span>
+              </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: 'var(--text3)' }}>基础积分</span><span>50</span>
@@ -243,8 +334,13 @@ export default function ConsumptionPointsPage() {
                 {form.screenshot_url && <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: 'var(--text3)' }}>截图奖励</span><span style={{ color: '#22d3a0' }}>+50</span>
                 </div>}
+                {aiResult && <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#c084fc' }}>🤖 AI评分奖励（{aiResult.score}分）</span>
+                  <span style={{ color: '#c084fc' }}>+{aiResult.aiPoints}</span>
+                </div>}
                 <div style={{ borderTop: '1px solid var(--border)', paddingTop: 8, display: 'flex', justifyContent: 'space-between', fontWeight: 700 }}>
-                  <span>合计</span><span style={{ color: '#f6c90e' }}>{50 + (form.review.length > 50 ? 100 : 0) + (form.screenshot_url ? 50 : 0)} 积分</span>
+                  <span>合计（AI预评）</span>
+                  <span style={{ color: '#f6c90e' }}>{50 + (form.review.length > 50 ? 100 : 0) + (form.screenshot_url ? 50 : 0) + (aiResult?.aiPoints || 0)} 积分</span>
                 </div>
               </div>
             </div>

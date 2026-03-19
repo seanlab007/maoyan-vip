@@ -18,10 +18,11 @@ const HOT_DRAMAS = [
   { id: 4, title: "婚夜燃尽", genre: "商战爱情", views: "5200万", rating: 8.7, investors: 3654, cover: `${CDN}/drama5_9cba5735.jpg`, hot: false },
 ]
 
+const ONE_FACE_CDN = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663405311158/X9MpYGJw9J7Db3VAodtwJG'
 const TOP_CREATORS = [
-  { name: "小美同学", platform: "抖音", followers: "234万", gmv: "¥128万", avatar: `${CDN}/avatar_girl1_0ece4605.webp`, level: "钻石" },
-  { name: "科技达人Leo", platform: "小红书", followers: "89万", gmv: "¥56万", avatar: `${CDN}/avatar_boy2_ef939622.jpg`, level: "铂金" },
-  { name: "美食探店官", platform: "微博", followers: "156万", gmv: "¥89万", avatar: `${CDN}/avatar_girl2_99b8dcf9.jpg`, level: "钻石" },
+  { name: "林晓晴", platform: "抖音", followers: "234万", gmv: "¥128万", avatar: `${ONE_FACE_CDN}/7e2d963854cf7d37c5cba0b17645e19f_03e74458.jpg`, level: "钻石" },
+  { name: "苏雅涵", platform: "小红书", followers: "89万", gmv: "¥56万", avatar: `${ONE_FACE_CDN}/f753cb84667615f0a6c20271f1fd6cd9_684be83f.webp`, level: "铂金" },
+  { name: "陈梦瑶", platform: "微博", followers: "156万", gmv: "¥89万", avatar: `${ONE_FACE_CDN}/4ac48d56026dd3776746305d3bab9a9a_201383c5.jpg`, level: "钻石" },
 ]
 
 function CountUp({ end, suffix = '', prefix = '' }: { end: number; suffix?: string; prefix?: string }) {
@@ -103,7 +104,7 @@ export default function LandingPage() {
               </a>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
-              {[{ val: 23000, suffix: '+', label: '活跃网红', prefix: '' }, { val: 4800, suffix: '万', label: '本月佣金', prefix: '¥' }, { val: 98, suffix: '%', label: '结算准时率', prefix: '' }].map(s => (
+              {[{ val: 23000, suffix: '+', label: '活跃网红', prefix: '' }, { val: 4800, suffix: '万', label: '本月积分流水', prefix: '' }, { val: 98, suffix: '%', label: '结算准时率', prefix: '' }].map(s => (
                 <div key={s.label}>
                   <div style={{ fontSize: 24, fontWeight: 900, background: 'linear-gradient(135deg, #f6c90e, #ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     <CountUp end={s.val} suffix={s.suffix} prefix={s.prefix} />
@@ -117,21 +118,20 @@ export default function LandingPage() {
           {/* Dashboard Card */}
           <div style={{ background: '#14161c', borderRadius: 24, border: '1px solid rgba(255,255,255,0.06)', padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #f6c90e, #f6a800)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 700, fontSize: 18 }}>小</div>
+              <img src={`${ONE_FACE_CDN}/7e2d963854cf7d37c5cba0b17645e19f_03e74458.jpg`} alt="林晓晴" style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', border: '2px solid #f6c90e' }} />
               <div>
-                <div style={{ fontWeight: 600 }}>小美同学</div>
+                <div style={{ fontWeight: 600 }}>林晓晴</div>
                 <div style={{ fontSize: 12, color: '#9ba3b8' }}>钻石达人 · 抖音 234万粉</div>
               </div>
               <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                <div style={{ fontSize: 12, color: '#9ba3b8' }}>本月收益</div>
-                <div style={{ color: '#22d3a0', fontWeight: 700 }}>+¥12,840</div>
+                <div style={{ fontSize: 12, color: '#9ba3b8' }}>本月收益</div>                <div style={{ color: '#22d3a0', fontWeight: 700 }}>+12,840分</div>
               </div>
             </div>
             <div style={{ background: 'linear-gradient(135deg, #1c1f28, #0c0d10)', borderRadius: 16, padding: 20, marginBottom: 16, border: '1px solid rgba(246,201,14,0.15)' }}>
               <div style={{ fontSize: 12, color: '#5a6278', marginBottom: 4 }}>猫眼积分余额</div>
               <div style={{ fontSize: 40, fontWeight: 900, marginBottom: 12, background: 'linear-gradient(135deg, #f6c90e, #ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>128,450</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-                {[{ label: '今日获得', val: '+2,340', color: '#f6c90e', bg: 'rgba(246,201,14,0.08)' }, { label: '可兑换', val: '¥1,284', color: '#22d3a0', bg: 'rgba(34,211,160,0.08)' }, { label: 'DARK代币', val: '856', color: '#9d6dff', bg: 'rgba(157,109,255,0.08)' }].map(item => (
+                {[{ label: '今日获得', val: '+2,340', color: '#f6c90e', bg: 'rgba(246,201,14,0.08)' }, { label: '可消费商品', val: '1,284分', color: '#22d3a0', bg: 'rgba(34,211,160,0.08)' }, { label: '🐱小猫数量', val: '856只', color: '#9d6dff', bg: 'rgba(157,109,255,0.08)' }].map(item => (
                   <div key={item.label} style={{ background: item.bg, borderRadius: 12, padding: '10px 8px', textAlign: 'center' }}>
                     <div style={{ fontSize: 11, color: '#9ba3b8', marginBottom: 4 }}>{item.label}</div>
                     <div style={{ fontWeight: 700, fontSize: 14, color: item.color }}>{item.val}</div>
@@ -158,7 +158,7 @@ export default function LandingPage() {
             <p style={{ color: '#9ba3b8' }}>搞钱 · 社交 · 变美，每一个板块都是一条变现通道</p>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 40 }}>
-            {[{ key: 'creator', icon: '💳', label: 'Creator Card' }, { key: 'drama', icon: '🎬', label: '短剧投资' }, { key: 'consume', icon: '🧾', label: '消费积分' }, { key: 'groupbuy', icon: '👥', label: '万人团购' }].map(tab => (
+            {[{ key: 'creator', icon: '💳', label: '网红卡' }, { key: 'drama', icon: '🎬', label: '短剧投资' }, { key: 'consume', icon: '🧾', label: '消费积分' }, { key: 'groupbuy', icon: '👥', label: '万人团购' }].map(tab => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key as typeof activeTab)}
                 style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 99, fontSize: 14, fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s', border: 'none', ...(activeTab === tab.key ? { background: 'linear-gradient(135deg, #f6c90e, #f6a800)', color: '#000', boxShadow: '0 0 20px rgba(246,201,14,0.3)' } : { background: '#14161c', color: '#9ba3b8', border: '1px solid rgba(255,255,255,0.08)' }) }}>
                 <span>{tab.icon}</span><span>{tab.label}</span>
@@ -172,33 +172,33 @@ export default function LandingPage() {
             {activeTab === 'creator' && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontSize: 11, color: '#f6c90e', fontWeight: 600, marginBottom: 12, letterSpacing: 2, textTransform: 'uppercase' }}>Creator Card</div>
+                  <div style={{ fontSize: 11, color: '#f6c90e', fontWeight: 600, marginBottom: 12, letterSpacing: 2, textTransform: 'uppercase' }}>网红卡</div>
                   <h3 style={{ fontSize: 32, fontWeight: 900, marginBottom: 16, lineHeight: 1.3 }}>你的社交影响力<br /><span style={{ background: 'linear-gradient(135deg, #f6c90e, #ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>变成实体名片</span></h3>
-                  <p style={{ color: '#9ba3b8', marginBottom: 24, lineHeight: 1.7 }}>上传你的社交账号数据，生成专属网红名片。每次分享、朋友圈发布、群发推广，都能获得积分奖励，积分可兑换现金或 DARK 代币。</p>
-                  {[{ icon: '📱', text: '支持抖音、小红书、微博、微信等全平台' }, { icon: '💰', text: '朋友圈软广 5–25 DARK，社群交易 10–200 DARK' }, { icon: '🔗', text: '专属分享链接，追踪每一笔成交' }, { icon: '🏆', text: '五级达人体系：新手 → 银牌 → 金牌 → 铂金 → 钻石' }].map(item => (
+                  <p style={{ color: '#9ba3b8', marginBottom: 24, lineHeight: 1.7 }}>上传你的社交账号数据，生成专属网红名片。每次分享、朋友圈发布、群发推广，都能获得积分奖励，积分可兑换商品或领取小猫（积分不可提现）。</p>
+                  {[{ icon: '📱', text: '支持抖音、小红书、微博、微信等全平台' }, { icon: '🐱', text: '朋友圈软广奖 5–25只小猫，社群交易奖 10–200只小猫' }, { icon: '🔗', text: '专属分享链接，追踪每一笔成交' }, { icon: '🏆', text: '五级达人体系：新手 → 银牌 → 金牌 → 铂金 → 钻石' }].map(item => (
                     <div key={item.text} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
                       <span style={{ fontSize: 20 }}>{item.icon}</span>
                       <span style={{ fontSize: 14, color: '#9ba3b8' }}>{item.text}</span>
                     </div>
                   ))}
                   <Link to="/creator-card" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg, #f6c90e, #f6a800)', color: '#000', fontWeight: 700, padding: '12px 24px', borderRadius: 99, fontSize: 14, textDecoration: 'none', marginTop: 24 }}>
-                    立即申请 Creator Card →
+                    立即申请网红卡 →
                   </Link>
                 </div>
                 <div>
                   <div style={{ background: 'linear-gradient(135deg, #92400e, #d97706, #b45309)', borderRadius: 16, padding: 24, marginBottom: 16, color: '#fff', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', inset: 0, opacity: 0.1, background: 'radial-gradient(ellipse at top right, white 0%, transparent 70%)' }} />
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
-                      <div><p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 2, opacity: 0.7 }}>猫眼 · maoyan.vip</p><p style={{ fontSize: 14, fontWeight: 600 }}>Gold Creator Card</p></div>
+                      <div><p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 2, opacity: 0.7 }}>猫眼 · maoyan.vip</p><p style={{ fontSize: 14, fontWeight: 600 }}>Gold 网红卡</p></div>
                       <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>💳</div>
                     </div>
                     <p style={{ fontFamily: 'monospace', fontSize: 18, letterSpacing: 4, marginBottom: 16, opacity: 0.9 }}>•••• •••• •••• 8888</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <div><p style={{ fontSize: 11, opacity: 0.6, textTransform: 'uppercase', letterSpacing: 1 }}>持卡人</p><p style={{ fontSize: 14, fontWeight: 500 }}>小美同学</p></div>
+                      <div><p style={{ fontSize: 11, opacity: 0.6, textTransform: 'uppercase', letterSpacing: 1 }}>持卡人</p><p style={{ fontSize: 14, fontWeight: 500 }}>林晓晴</p></div>
                       <div style={{ textAlign: 'right' }}><p style={{ fontSize: 11, opacity: 0.6, textTransform: 'uppercase', letterSpacing: 1 }}>粉丝量</p><p style={{ fontSize: 14, fontWeight: 500 }}>234万</p></div>
                     </div>
                     <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.2)', display: 'flex', justifyContent: 'space-between', fontSize: 12, opacity: 0.7 }}>
-                      <span>本月佣金 ¥12,840</span><span>信任积分 128,450</span>
+                      <span>本月积分 12,840</span><span>信任积分 128,450</span>
                     </div>
                   </div>
                   {TOP_CREATORS.map((c, i) => (
@@ -422,7 +422,7 @@ export default function LandingPage() {
             <span style={{ color: '#5a6278', fontSize: 13 }}>maoyan.vip</span>
           </div>
           <div style={{ fontSize: 12, color: '#5a6278', textAlign: 'center' }}>
-            数据与 <a href="https://daiizen.com" style={{ color: '#f6c90e' }}>daiizen.com</a> 互通 · Powered by <span style={{ color: '#9d6dff' }}>Dark Matter Bank</span>
+            数据与 <a href="https://daiizen.com" style={{ color: '#f6c90e' }}>daiizen.com</a> 互通 · Powered by <span style={{ color: '#9d6dff' }}>猫眼品牌管理</span>
           </div>
           <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#5a6278' }}>
             <a href="#" style={{ color: '#5a6278', textDecoration: 'none' }}>隐私政策</a>

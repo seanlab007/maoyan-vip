@@ -26,6 +26,7 @@ const TestAuthPage = React.lazy(() => import('@/pages/TestAuth'))
 const ConsumptionPointsPage = React.lazy(() => import('@/pages/ConsumptionPoints'))
 const GroupBuyPage = React.lazy(() => import('@/pages/GroupBuy'))
 const HealthPage = React.lazy(() => import('@/pages/Health'))
+const OneFacePage = React.lazy(() => import('@/pages/OneFace'))
 
 function AnalyticsTracker() {
   const location = useLocation()
@@ -64,6 +65,7 @@ function AppRoutes() {
 
           {/* 受保护页面 - 变美 Tab */}
           <Route path="/health" element={<ProtectedRoute><AppLayout><HealthPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/one-face" element={<ProtectedRoute><AppLayout><OneFacePage /></AppLayout></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

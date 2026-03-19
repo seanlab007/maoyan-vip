@@ -57,7 +57,7 @@ export default function HomePage() {
             </div>
             <div className="hero-stats">
               <div className="hero-stat"><strong>2.3万+</strong><span>入驻达人</span></div>
-              <div className="hero-stat"><strong>¥4800万</strong><span>累计佣金</span></div>
+              <div className="hero-stat"><strong>4800万+</strong><span>累计积分流水</span></div>
               <div className="hero-stat"><strong>98.6%</strong><span>准时结算率</span></div>
             </div>
           </div>
@@ -69,13 +69,13 @@ export default function HomePage() {
               </div>
               <div className="hc-balance">
                 <div className="hc-bal-label">本月收益</div>
-                <div className="hc-bal-val">¥12,480</div>
-                <div className="hc-bal-sub">+¥2,130 较上月</div>
+                <div className="hc-bal-val">12,480 分</div>
+                <div className="hc-bal-sub">+2,130分 较上月</div>
               </div>
               <div className="hc-breakdown">
-                <div className="hc-item"><span>🛍️ 带货佣金</span><span>¥8,960</span></div>
-                <div className="hc-item"><span>👥 推荐奖励</span><span>¥2,400</span></div>
-                <div className="hc-item"><span>🪙 积分兑换</span><span>¥1,120</span></div>
+                <div className="hc-item"><span>🛒️ 带货佣金</span><span>8,960分</span></div>
+                <div className="hc-item"><span>👥 推荐奖励</span><span>2,400分</span></div>
+                <div className="hc-item"><span>🪙 兑换商品</span><span>1,120分</span></div>
               </div>
               <div className="hc-level">
                 <span className="hc-level-badge">🥇 黄金达人</span>
@@ -122,12 +122,13 @@ export default function HomePage() {
           <h2 className="section-title">三种<span className="gold-text">变现路径</span></h2>
           <div className="earn-cards">
             {[
-              { icon: '🔗', title: '社交分销', tag: '适合所有人', income: '¥800–3,000/月',
-                desc: '分享商品链接 → 朋友购买 → 自动到账佣金。动动手指，朋友圈变提款机。' },
-              { icon: '🏪', title: '私域带货', tag: '适合网红/群主', income: '¥5,000–20,000/月',
-                desc: '建立粉丝群，利用专业度选品推荐。粉丝因信任而买单，你赚最高佣金。' },
-              { icon: '📚', title: '知识付费', tag: '适合专家型', income: '¥15,000–50,000+/月',
-                desc: '分享专业知识（护肤/穿搭/投资），粉丝付费进群或买课。把信任直接标价。' },
+              { icon: '🔗', title: '社交分销', tag: '适合所有人', income: '800–3,000分/月',
+                desc: '分享商品链接 → 朋友购买 → 自动到账积分佣金。动动手指，积分兑换好货。' },
+
+              { icon: '🏦', title: '私域带货', tag: '适合网红/群主', income: '5,000–20,000分/月',
+                desc: '建立粉丝群，利用专业度选品推荐。粉丝因信任而买单，积分兑换大量好货。' },
+              { icon: '📚', title: '知识付费', tag: '适合专家型', income: '15,000–50,000+分/月',
+                desc: '分享专业知识（护肤/穿搭/投资），粉丝付费进群或买课。积劆兑换尊贵体验。' },
             ].map(c => (
               <div key={c.title} className="earn-card">
                 <div className="ec-icon">{c.icon}</div>
@@ -148,10 +149,10 @@ export default function HomePage() {
           <div className="levels-table">
             {[
               { icon: '🌱', level: '新手', color: '#9ba3b8', commission: '5%', gmv: '0起' },
-              { icon: '🥈', level: '白银', color: '#c0c0c0', commission: '8%', gmv: '¥5,000+' },
-              { icon: '🥇', level: '黄金', color: '#f6c90e', commission: '12%', gmv: '¥3万+' },
-              { icon: '💎', level: '铂金', color: '#4a9eff', commission: '16%', gmv: '¥10万+' },
-              { icon: '👑', level: '钻石', color: '#9d6dff', commission: '20%', gmv: '¥50万+' },
+              { icon: '🥈', level: '白銀', color: '#c0c0c0', commission: '8%', gmv: '5,000+分' },
+              { icon: '🥇', level: '黄金', color: '#f6c90e', commission: '12%', gmv: '3万+分' },
+              { icon: '📎', level: '铂金', color: '#4a9eff', commission: '16%', gmv: '10万+分' },
+              { icon: '👑', level: '钒石', color: '#9d6dff', commission: '20%', gmv: '50万+分' },
             ].map(l => (
               <div key={l.level} className="level-row">
                 <span className="level-icon">{l.icon}</span>

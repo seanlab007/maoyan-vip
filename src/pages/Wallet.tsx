@@ -65,7 +65,7 @@ export default function WalletPage() {
           <div>
             <div className="wallet-label">积分余额</div>
             <div className="wallet-balance">{wallet?.balance?.toLocaleString() || 0}</div>
-            <div className="wallet-sub">≈ ¥{((wallet?.balance || 0) / 100).toFixed(2)}</div>
+            <div className="wallet-sub">积分只可消费，不可提现</div>
           </div>
           <div className="wallet-stats-mini">
             <div>
@@ -164,8 +164,8 @@ export default function WalletPage() {
                   {product.points_price && (
                     <span className="price-points">🪙 {product.points_price.toLocaleString()}</span>
                   )}
-                  {product.price && (
-                    <span className="price-cash">¥{product.price}</span>
+                  {product.points_price && product.price && (
+                    <span className="price-cash" style={{textDecoration:'line-through', opacity:0.5, fontSize:'0.85em'}}>市价¥{product.price}</span>
                   )}
                 </div>
                 <div className="product-stock">库存 {product.stock}</div>
@@ -175,7 +175,7 @@ export default function WalletPage() {
                 onClick={() => handleRedeem(product)}
                 disabled={!product.points_price || (wallet?.balance || 0) < (product.points_price || 0)}
               >
-                {!product.points_price ? '仅现金' :
+                {!product.points_price ? '暂不支持积分兑换' :
                   (wallet?.balance || 0) < (product.points_price || 0) ? '积分不足' : '立即兑换'}
               </button>
             </div>

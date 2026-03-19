@@ -66,7 +66,7 @@ export default function DramaPage() {
   }
 
   return (
-    <div style={{ paddingBottom:16, background:'var(--bg)', minHeight:'100vh' }}>
+    <div style={{ paddingBottom:16 }}>
       {/* 社交子导航 */}
       <div style={{ background:'var(--bg2)', borderBottom:'1px solid var(--border)', padding:'12px 16px 0', display:'flex' }}>
         {[{id:'drama',label:'🎬 短剧投资'},{id:'leaderboard',label:'🏆 排行榜'},{id:'profile',label:'🪪 我的名片'}].map(tab => (
@@ -157,7 +157,7 @@ export default function DramaPage() {
                 </div>
                 <div style={{ background:'var(--bg3)', borderRadius:12, padding:'12px 16px', marginBottom:16 }}>
                   <div style={{ display:'flex', justifyContent:'space-between', fontSize:13, marginBottom:6 }}><span style={{ color:'var(--text2)' }}>预期收益率</span><span style={{ color:'var(--green)', fontWeight:700 }}>8~25%</span></div>
-                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:13 }}><span style={{ color:'var(--text2)' }}>DARK 奖励</span><span style={{ color:'var(--gold)', fontWeight:700 }}>{(investAmount*0.05).toFixed(2)} DARK</span></div>
+                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:13 }}><span style={{ color:'var(--text2)' }}>🐱 小猫奖励</span><span style={{ color:'var(--gold)', fontWeight:700 }}>+{Math.floor(investAmount*0.05)}只</span></div>
                 </div>
                 <button onClick={handleInvest} disabled={loading} style={{ width:'100%', background:'linear-gradient(135deg,#f6c90e,#ffd94a)', color:'#000', border:'none', borderRadius:12, padding:'14px', fontSize:15, fontWeight:700, cursor:loading?'not-allowed':'pointer', opacity:loading?0.7:1 }}>
                   {loading?'投资中...':`确认投资 ¥${investAmount}`}

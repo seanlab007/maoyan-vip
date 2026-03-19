@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
+import { useAuthStore } from '@/store/authStore'
 import { trackLogin } from '@/lib/analytics'
 import toast from 'react-hot-toast'
 import '@/styles/auth.css'
+
 
 type LoginMode = 'phone' | 'email'
 
@@ -11,8 +13,17 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const from = (location.state as { from?: string })?.from || '/dashboard'
+  const { user } = useAuthStore()
   const [mode, setMode] = useState<LoginMode>('phone')
   const [isLoading, setIsLoading] = useState(false)
+  const [loginSuccess, setLoginSuccess] = useState(false)
+
+  // 监听 user 状态变化，登录成功后跳转
+  useEffect(() => {
+    if (loginSuccess && user) {
+      navigate(from, { replace: true })
+    }
+  }, [loginSuccess, user, navigate, from])
   const [smsSent, setSmsSent] = useState(false)
   const [countdown, setCountdown] = useState(0)
   const [phone, setPhone] = useState('')
@@ -51,8 +62,14 @@ export default function LoginPage() {
     setIsLoading(true)
     try {
       const fullPhone = phone.startsWith('+') ? phone : `+86${phone}`
-      const { error } = await supabase.auth.verifyOtp({ phone: fullPhone, token: otp, type: 'sms' })
+      const { data, error } = await supabase.auth.verifyOtp({ phone: fullPhone, token: otp, type: 'sms' })
       if (error) throw error
+      // 立即手动同步 user 到 authStore，不等 onAuthStateChange
+      if (data?.user) {
+        useAuthStore.getState().setUser(data.user)
+        if (data.session) useAuthStore.getState().setSession(data.session)
+        useAuthStore.getState().loadUserData(data.user.id)
+      }
       trackLogin('phone')
       toast.success('登录成功！欢迎回来 🎉')
       navigate(from, { replace: true })
@@ -68,11 +85,18 @@ export default function LoginPage() {
     if (!email || !password) { toast.error('请填写邮箱和密码'); return }
     setIsLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
+      // 先跳转，再后台加载用户数据（避免loadUserData卡住导致navigate不执行）
       trackLogin('email')
       toast.success('欢迎回来！')
       navigate(from, { replace: true })
+      // 后台异步同步 user 到 authStore
+      if (data?.user) {
+        useAuthStore.getState().setUser(data.user)
+        if (data.session) useAuthStore.getState().setSession(data.session)
+        useAuthStore.getState().loadUserData(data.user.id)
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '登录失败'
       toast.error(msg.includes('Invalid login credentials') ? '邮箱或密码错误' : msg)

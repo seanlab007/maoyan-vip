@@ -134,7 +134,8 @@
 }
 
 /* ── Nav ───────────────────── */
-nav {
+/* 注意：不使用全局 nav 选择器，避免影响其他页面的 nav 元素 */
+.landing-page > nav {
   position: fixed;
   top: 0;
   left: 0;

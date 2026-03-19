@@ -39,9 +39,9 @@ export default function ProfilePage() {
 
   return (
     <div className="profile-page">
-      {/* Creator Card */}
+      {/* 网红卡 */}
       <div className="creator-card-wrapper">
-        <h2>我的 Creator Card</h2>
+        <h2>我的网红卡</h2>
         <div className="creator-card" ref={cardRef}>
           <div className="cc-header">
             <div className="cc-platform">
@@ -97,8 +97,8 @@ export default function ProfilePage() {
             <div className="cc-wallet-item">
               <span className="cc-wallet-icon">💰</span>
               <div>
-                <div className="cc-wallet-val">¥{profile?.commission_total?.toLocaleString() || 0}</div>
-                <div className="cc-wallet-label">累计佣金</div>
+                <div className="cc-wallet-val">{(profile?.commission_total || 0).toLocaleString()} 分</div>
+                <div className="cc-wallet-label">累计积分奖励</div>
               </div>
             </div>
           </div>
