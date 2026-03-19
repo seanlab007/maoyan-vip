@@ -25,7 +25,7 @@ const TASK_GROUPS = [
     subtitle: '自用省钱，分享赚钱',
     tasks: [
       { id:'referral', icon:'🤝', title:'邀请好友', desc:'每邀请一人注册，双方各得 200 积分', reward:'+200/人', color:'#f066aa', path:'/profile', unlocked:true },
-      { id:'moments', icon:'📱', title:'朋友圈广告', desc:'发朋友圈推广猫眼，满 24 小时截图核销积分', reward:'+80/条', color:'#07c160', path:null, unlocked:true },
+      { id:'moments', icon:'📱', title:'朋友圈广告', desc:'发朋友圈推广猫眼，满 24 小时截图核销积分', reward:'+80/条', color:'#07c160', path:'/moments-ad', unlocked:true },
       { id:'creatorcard', icon:'🪪', title:'网红名片推广', desc:'生成专属网红卡，通过微信好友/社群传播', reward:'+积分返点', color:'#f6c90e', path:'/profile', unlocked:true },
     ]
   },
@@ -36,7 +36,7 @@ const TASK_GROUPS = [
     tasks: [
       { id:'xiaohongshu', icon:'📕', title:'发小红书/抖音', desc:'发布猫眼相关内容，提交链接审核后获积分', reward:'+200~500', color:'#ff2442', path:null, unlocked:true },
       { id:'tshirt', icon:'👕', title:'穿 Logo T恤打卡', desc:'穿猫眼 Logo 服装发社交媒体，品牌曝光赚积分', reward:'+150', color:'#9d6dff', path:null, unlocked:true },
-      { id:'livestream', icon:'🔴', title:'开直播', desc:'用积分兑换投流，直播带货或推广猫眼平台', reward:'佣金分成', color:'#ff4757', path:null, unlocked:true },
+      { id:'livestream', icon:'🔴', title:'开直播', desc:'上传直播截图和卖货记录，按带货金额分成佣金', reward:'佣金分成', color:'#ff4757', path:'/livestream', unlocked:true },
     ]
   },
   {
@@ -44,9 +44,9 @@ const TASK_GROUPS = [
     title: '🎯 组局赚钱',
     subtitle: '高端玩法，品牌合作',
     tasks: [
-      { id:'survey', icon:'🔍', title:'消费调研局', desc:'组织真实消费者，让品牌方了解消费习惯，可同吃同住调研', reward:'+5000~20000积分/场', color:'#4a9eff', path:null, unlocked:true },
-      { id:'influencer_event', icon:'⭐', title:'网红流量局', desc:'联合多位网红组局，品牌方付费参与，真实用户互动', reward:'定制报价', color:'#9d6dff', path:null, unlocked:true },
-      { id:'vip_day', icon:'🎪', title:'网红生活体验', desc:'付费开放「网红生活的一天」，设置阶梯票价', reward:'自定义收费', color:'#f6c90e', path:null, unlocked:true },
+      { id:'survey', icon:'🔍', title:'消费调研局', desc:'组织真实消费者，让品牌方了解消费习惯，可同吃同住调研', reward:'+5000~20000积分/场', color:'#4a9eff', path:'/group-events', unlocked:true },
+      { id:'influencer_event', icon:'⭐', title:'网红流量局', desc:'联合多位网红组局，品牌方付费参与，真实用户互动', reward:'定制报价', color:'#9d6dff', path:'/group-events', unlocked:true },
+      { id:'vip_day', icon:'🎪', title:'网红生活体验', desc:'付费开放「网红生活的一天」，设置阶梯票价', reward:'自定义收费', color:'#f6c90e', path:'/group-events', unlocked:true },
     ]
   },
 
@@ -58,7 +58,7 @@ const TASK_GROUPS = [
       { id:'vippackages', icon:'🐱', title:'自用省钱 分享赚錢', desc:'宝妈/精致女性/新中产/女大学生/男大学生五大终身会员权益包，储値金模式，7天无理由退款', reward:'立赠积分', color:'#f6c90e', path:'/vip-packages', unlocked:true },
       { id:'groupbuy', icon:'🏷️', title:'大牌折扣中心', desc:'ONE FACE/概念180/碑芙宝贝/MitoQ四大品牌，万人团购享最低折扣，认购包锁定长期价格', reward:'最高5折', color:'#ff9800', path:'/group-buy', unlocked:true },
       { id:'drama', icon:'🎬', title:'短剧投资', desc:'投资热门短剧，按实际播放量分成，最高 25% 收益', reward:'8~25%', color:'#9d6dff', path:'/drama', unlocked:true },
-      { id:'stock', icon:'📈', title:'积分投资美股', desc:'用积分兑换投资额度，投资美股/大宗商品，收益以积分形式发放', reward:'市场积分收益', color:'#22d3a0', path:null, unlocked:true },
+      { id:'stock', icon:'📈', title:'积分投资美股', desc:'用积分兑换投资额度，投资美股/大宗商品，收益以积分形式发放', reward:'市场积分收益', color:'#22d3a0', path:'/stock-invest', unlocked:true },
     ]
   },
   {
@@ -66,8 +66,8 @@ const TASK_GROUPS = [
     title: '📚 学习赚钱',
     subtitle: '越学越赚，知识变现',
     tasks: [
-      { id:'course_take', icon:'🎓', title:'听课赚积分', desc:'完成品牌方推出的课程并通过考试，获得积分奖励', reward:'+200~500', color:'#ff9800', path:null, unlocked:true },
-      { id:'course_sell', icon:'💡', title:'卖自己的课程', desc:'上传课程大纲（品牌方提供），通过审核后开始销售', reward:'课程分成', color:'#f066aa', path:null, unlocked:true },
+      { id:'course_take', icon:'🎓', title:'听课赚积分', desc:'完成品牌方推出的课程并通过考试，获得积分奖励', reward:'+200~500', color:'#ff9800', path:'/learn-earn', unlocked:true },
+      { id:'course_sell', icon:'💡', title:'卖自己的课程', desc:'上传课程大纲，通过审核后开始销售，按销售额分成', reward:'课程分成', color:'#f066aa', path:'/sell-course', unlocked:true },
     ]
   },
 ]

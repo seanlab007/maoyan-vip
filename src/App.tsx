@@ -29,6 +29,12 @@ const VIPPackagesPage = React.lazy(() => import('@/pages/VIPPackages'))
 const HealthPage = React.lazy(() => import('@/pages/Health'))
 const OneFacePage = React.lazy(() => import('@/pages/OneFace'))
 const ProductReviewPage = React.lazy(() => import('@/pages/ProductReview'))
+const MomentsAdPage = React.lazy(() => import('@/pages/MomentsAd'))
+const LiveStreamPage = React.lazy(() => import('@/pages/LiveStream'))
+const GroupEventsPage = React.lazy(() => import('@/pages/GroupEvents'))
+const StockInvestPage = React.lazy(() => import('@/pages/StockInvest'))
+const LearnEarnPage = React.lazy(() => import('@/pages/LearnEarn'))
+const SellCoursePage = React.lazy(() => import('@/pages/SellCourse'))
 
 function AnalyticsTracker() {
   const location = useLocation()
@@ -70,6 +76,12 @@ function AppRoutes() {
           <Route path="/health" element={<ProtectedRoute><AppLayout><HealthPage /></AppLayout></ProtectedRoute>} />
           <Route path="/one-face" element={<ProtectedRoute><AppLayout><OneFacePage /></AppLayout></ProtectedRoute>} />
           <Route path="/product-review" element={<ProtectedRoute><AppLayout><ProductReviewPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/moments-ad" element={<ProtectedRoute><AppLayout><MomentsAdPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/livestream" element={<ProtectedRoute><AppLayout><LiveStreamPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/group-events" element={<ProtectedRoute><AppLayout><GroupEventsPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/stock-invest" element={<ProtectedRoute><AppLayout><StockInvestPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/learn-earn" element={<ProtectedRoute><AppLayout><LearnEarnPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/sell-course" element={<ProtectedRoute><AppLayout><SellCoursePage /></AppLayout></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
