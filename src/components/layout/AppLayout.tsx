@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import toast from 'react-hot-toast'
+import { MaoLogo } from '@/components/MaoLogo'
 
 const SIDEBAR_W = 260
 
@@ -93,27 +94,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div style={{ padding: '24px 20px 20px' }}>
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <svg width="40" height="40" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* M形猫脸 - 参考猫眼品牌 Mc&Mamoo Logo */}
-              {/* 左耳：左三角形 */}
-              <polygon points="4,78 26,8 50,46" fill="#f6c90e"/>
-              {/* 右耳：右三角形 */}
-              <polygon points="96,78 74,8 50,46" fill="#f6c90e"/>
-              {/* 底部横条 */}
-              <rect x="4" y="74" width="92" height="16" rx="5" fill="#f6c90e"/>
-              {/* 左眼框 */}
-              <circle cx="30" cy="78" r="14" fill="#0d0d0d"/>
-              {/* 右眼框 */}
-              <circle cx="70" cy="78" r="14" fill="#0d0d0d"/>
-              {/* 左眼瞳孔 */}
-              <circle cx="30" cy="78" r="8" fill="#f6c90e"/>
-              {/* 右眼瞳孔 */}
-              <circle cx="70" cy="78" r="8" fill="#f6c90e"/>
-              {/* 左眼高光 */}
-              <circle cx="34" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
-              {/* 右眼高光 */}
-              <circle cx="74" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
-            </svg>
+            <MaoLogo size={40} eyeInnerColor="#0d0d0d" />
             <div>
               <div style={{ fontSize: 18, fontWeight: 900, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</div>
               <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: -2 }}>要搞钱 来猫眼</div>
@@ -168,17 +149,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* 手机端顶部 header */}
         <header className="apl-mobile-header" style={{ display: 'none', position: 'relative' }}>
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <svg width="32" height="32" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="4,78 26,8 50,46" fill="#f6c90e"/>
-              <polygon points="96,78 74,8 50,46" fill="#f6c90e"/>
-              <rect x="4" y="74" width="92" height="16" rx="5" fill="#f6c90e"/>
-              <circle cx="30" cy="78" r="14" fill="#0d0d0d"/>
-              <circle cx="70" cy="78" r="14" fill="#0d0d0d"/>
-              <circle cx="30" cy="78" r="8" fill="#f6c90e"/>
-              <circle cx="70" cy="78" r="8" fill="#f6c90e"/>
-              <circle cx="34" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
-              <circle cx="74" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
-            </svg>
+            <MaoLogo size={32} eyeInnerColor="#0d0d0d" />
             <span style={{ fontSize: 16, fontWeight: 800, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

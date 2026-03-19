@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase'
 import { trackRegister } from '@/lib/analytics'
 import toast from 'react-hot-toast'
 import '@/styles/auth.css'
+import { MaoLogo } from '@/components/MaoLogo'
 
 const schema = z.object({
   email: z.string().email('请输入有效邮箱'),
@@ -145,9 +146,9 @@ export default function RegisterPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">
-          <span className="logo-icon">🐱</span>
-          <span className="logo-text">猫眼 MaoYan</span>
+        <div className="auth-logo" style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center', marginBottom: 8 }}>
+          <MaoLogo size={44} eyeInnerColor="#1a1a1a" />
+          <span className="logo-text" style={{ fontSize: 22, fontWeight: 900, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼 MaoYan</span>
         </div>
         <h1 className="auth-title">创建账号</h1>
         <p className="auth-subtitle">注册即送 <span className="gold">100 积分</span></p>
