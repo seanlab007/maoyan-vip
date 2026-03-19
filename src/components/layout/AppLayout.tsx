@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 const SIDEBAR_W = 260
 
 const NAV_ITEMS = [
-  { id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face'] },
+  { id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages'] },
   { id: 'social', path: '/drama', icon: '🤝', label: '社交', subPaths: ['/drama', '/leaderboard', '/profile'] },
   { id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health'] },
 ]
@@ -167,7 +167,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   <div style={{ fontWeight: 700, fontSize: 14 }}>{profile?.nickname || '猫眼达人'}</div>
                   <div style={{ fontSize: 12, color: 'var(--text2)' }}>邀请码: {profile?.referral_code}</div>
                 </div>
-                {[{ to: '/profile', label: '👤 个人名片' }, { to: '/wallet', label: '💳 积分明细' }, { to: '/consumption-points', label: '📸 消费积分' }, { to: '/group-buy', label: '🛍️ 万人团购' }].map(item => (
+                {[{ to: '/profile', label: '👤 个人名片' }, { to: '/wallet', label: '💳 积分明细' }, { to: '/vip-packages', label: '🐱 自用省钱包' }, { to: '/group-buy', label: '🏷️ 大牌折扣' }].map(item => (
                   <Link key={item.to} to={item.to} onClick={() => setShowUserMenu(false)} style={{ display: 'block', padding: '8px 12px', borderRadius: 8, fontSize: 14, color: 'var(--text)', textDecoration: 'none' }}>{item.label}</Link>
                 ))}
                 <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.08)', margin: '4px 0' }} />

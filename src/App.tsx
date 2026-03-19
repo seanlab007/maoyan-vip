@@ -25,6 +25,7 @@ const LandingPage = React.lazy(() => import('@/pages/LandingPage'))
 const TestAuthPage = React.lazy(() => import('@/pages/TestAuth'))
 const ConsumptionPointsPage = React.lazy(() => import('@/pages/ConsumptionPoints'))
 const GroupBuyPage = React.lazy(() => import('@/pages/GroupBuy'))
+const VIPPackagesPage = React.lazy(() => import('@/pages/VIPPackages'))
 const HealthPage = React.lazy(() => import('@/pages/Health'))
 const OneFacePage = React.lazy(() => import('@/pages/OneFace'))
 
@@ -56,6 +57,7 @@ function AppRoutes() {
           <Route path="/wallet" element={<ProtectedRoute><AppLayout><WalletPage /></AppLayout></ProtectedRoute>} />
           <Route path="/consumption-points" element={<ProtectedRoute><AppLayout><ConsumptionPointsPage /></AppLayout></ProtectedRoute>} />
           <Route path="/group-buy" element={<AppLayout><GroupBuyPage /></AppLayout>} />
+          <Route path="/vip-packages" element={<AppLayout><VIPPackagesPage /></AppLayout>} />
 
           {/* 受保护页面 - 社交 Tab */}
           <Route path="/drama" element={<ProtectedRoute><AppLayout><DramaPage /></AppLayout></ProtectedRoute>} />

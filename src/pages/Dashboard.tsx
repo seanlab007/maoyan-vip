@@ -55,7 +55,8 @@ const TASK_GROUPS = [
     title: '💹 投资理财',
     subtitle: '钱生钱，长期复利',
     tasks: [
-      { id:'groupbuy', icon:'🛒', title:'品牌团购中心', desc:'ONE FACE/概念180/碧芭宝贝/MitoQ四大品牌，万人团购享最低折扣，认购包锁定长期价格', reward:'最高5折', color:'#f6c90e', path:'/group-buy', unlocked:true },
+      { id:'vippackages', icon:'🐱', title:'自用省钱 分享赚錢', desc:'宝妈/精致女性/新中产/女大学生/男大学生五大终身会员权益包，储値金模式，7天无理由退款', reward:'立赠积分', color:'#f6c90e', path:'/vip-packages', unlocked:true },
+      { id:'groupbuy', icon:'🏷️', title:'大牌折扣中心', desc:'ONE FACE/概念180/碑芙宝贝/MitoQ四大品牌，万人团购享最低折扣，认购包锁定长期价格', reward:'最高5折', color:'#ff9800', path:'/group-buy', unlocked:true },
       { id:'drama', icon:'🎬', title:'短剧投资', desc:'投资热门短剧，按实际播放量分成，最高 25% 收益', reward:'8~25%', color:'#9d6dff', path:'/drama', unlocked:true },
       { id:'stock', icon:'📈', title:'积分投资美股', desc:'用积分兑换投资额度，投资美股/大宗商品，收益以积分形式发放', reward:'市场积分收益', color:'#22d3a0', path:null, unlocked:true },
     ]
@@ -213,7 +214,7 @@ export default function DashboardPage() {
           <div style={{ fontSize:12, color:'var(--text3)', marginBottom:16 }}>累计获得 {(wallet?.total_earned||0).toLocaleString()} 分 · 已消耗 {(wallet?.total_spent||0).toLocaleString()} 分</div>
 
           <div style={{ display:'flex', gap:10 }}>
-            {[{label:'积分明细',icon:'📊',path:'/wallet'},{label:'消费积分',icon:'📸',path:'/consumption-points'},{label:'品牌团购',icon:'🛒',path:'/group-buy'},{label:'邀请好友',icon:'🔗',path:'/profile'}].map(item => (
+            {[{label:'积分明细',icon:'📊',path:'/wallet'},{label:'省钱包',icon:'🐱',path:'/vip-packages'},{label:'大牌折扣',icon:'🏷️',path:'/group-buy'},{label:'邀请好友',icon:'🔗',path:'/profile'}].map(item => (
               <Link key={item.path} to={item.path} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:4, textDecoration:'none' }}>
                 <div style={{ width:40, height:40, borderRadius:10, background:'rgba(255,255,255,0.06)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{item.icon}</div>
                 <span style={{ fontSize:10, color:'var(--text2)' }}>{item.label}</span>
