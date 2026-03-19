@@ -28,6 +28,7 @@ const GroupBuyPage = React.lazy(() => import('@/pages/GroupBuy'))
 const VIPPackagesPage = React.lazy(() => import('@/pages/VIPPackages'))
 const HealthPage = React.lazy(() => import('@/pages/Health'))
 const OneFacePage = React.lazy(() => import('@/pages/OneFace'))
+const ProductReviewPage = React.lazy(() => import('@/pages/ProductReview'))
 
 function AnalyticsTracker() {
   const location = useLocation()
@@ -68,6 +69,7 @@ function AppRoutes() {
           {/* 受保护页面 - 变美 Tab */}
           <Route path="/health" element={<ProtectedRoute><AppLayout><HealthPage /></AppLayout></ProtectedRoute>} />
           <Route path="/one-face" element={<ProtectedRoute><AppLayout><OneFacePage /></AppLayout></ProtectedRoute>} />
+          <Route path="/product-review" element={<ProtectedRoute><AppLayout><ProductReviewPage /></AppLayout></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

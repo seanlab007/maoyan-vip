@@ -16,7 +16,7 @@ const TASK_GROUPS = [
     tasks: [
       { id:'checkin', icon:'📅', title:'每日签到', desc:'连续签到最高 50 积分/天，坚持打卡有惊喜', reward:'+10~50', color:'#22d3a0', path:null, unlocked:true },
       { id:'consumption', icon:'📸', title:'上传消费记录', desc:'上传微信/支付宝/淘宝/京东购物截图获得积分', reward:'+50~200', color:'#4a9eff', path:'/consumption-points', unlocked:true },
-      { id:'review', icon:'✍️', title:'商品真实评测', desc:'写自用商品详细评测，帮助其他用户决策', reward:'+100', color:'#ff9800', path:'/consumption-points', unlocked:true },
+      { id:'review', icon:'✍️', title:'商品真实评测', desc:'写自用商品详细评测，帮助其他用户决策', reward:'+100', color:'#ff9800', path:'/product-review', unlocked:true },
     ]
   },
   {
