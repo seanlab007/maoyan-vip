@@ -40,20 +40,10 @@ export default function LoginPage() {
 
   const handleSendSms = async () => {
     if (!phone || phone.length < 11) { toast.error('请输入正确的手机号'); return }
-    setIsLoading(true)
-    try {
-      const fullPhone = phone.startsWith('+') ? phone : `+86${phone}`
-      const { error } = await supabase.auth.signInWithOtp({ phone: fullPhone })
-      if (error) throw error
-      setSmsSent(true)
-      startCountdown()
-      toast.success('验证码已发送，请查收短信')
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : '发送失败'
-      toast.error(msg.includes('not enabled') ? '手机登录暂未开放，请使用邮箱登录' : msg)
-    } finally {
-      setIsLoading(false)
-    }
+    if (countdown > 0) return
+    // 手机短信服务暂未开通，提示用户使用邮箱登录
+    toast('📧 手机验证码暂未开通，请使用邮箱登录', { icon: '💡', duration: 4000 })
+    setMode('email')
   }
 
   const handlePhoneLogin = async (e: React.FormEvent) => {
@@ -108,9 +98,29 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">
-          <span className="logo-icon">🐱</span>
-          <span className="logo-text">猫眼 MaoYan</span>
+        <div className="auth-logo" style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center', marginBottom: 8 }}>
+          <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* M形猫脸：参考猫眼品牌Logo */}
+            {/* 左耳三角 */}
+            <polygon points="8,72 32,16 50,52" fill="#f6c90e"/>
+            {/* 右耳三角 */}
+            <polygon points="92,72 68,16 50,52" fill="#f6c90e"/>
+            {/* 底部连接横梁 */}
+            <rect x="8" y="68" width="84" height="14" rx="4" fill="#f6c90e"/>
+            {/* 左眼外圈 */}
+            <circle cx="33" cy="72" r="12" fill="#1a1a1a"/>
+            {/* 右眼外圈 */}
+            <circle cx="67" cy="72" r="12" fill="#1a1a1a"/>
+            {/* 左眼瞳孔 */}
+            <circle cx="33" cy="72" r="7" fill="#f6c90e"/>
+            {/* 右眼瞳孔 */}
+            <circle cx="67" cy="72" r="7" fill="#f6c90e"/>
+            {/* 左眼高光 */}
+            <circle cx="36" cy="69" r="2.5" fill="#fff" opacity="0.7"/>
+            {/* 右眼高光 */}
+            <circle cx="70" cy="69" r="2.5" fill="#fff" opacity="0.7"/>
+          </svg>
+          <span className="logo-text" style={{ fontSize: 22, fontWeight: 900, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼 MaoYan</span>
         </div>
         <h1 className="auth-title">欢迎回来</h1>
         <p className="auth-subtitle">登录您的达人账号</p>

@@ -93,12 +93,26 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div style={{ padding: '24px 20px 20px' }}>
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <svg width="40" height="36" viewBox="0 0 120 108" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M60 4 L116 104 L4 104 Z" fill="#f6c90e" stroke="none"/>
-              <ellipse cx="42" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
-              <ellipse cx="78" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
-              <ellipse cx="42" cy="80" rx="7" ry="9" fill="#f6c90e"/>
-              <ellipse cx="78" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+            <svg width="40" height="40" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* M形猫脸 - 参考猫眼品牌 Mc&Mamoo Logo */}
+              {/* 左耳：左三角形 */}
+              <polygon points="4,78 26,8 50,46" fill="#f6c90e"/>
+              {/* 右耳：右三角形 */}
+              <polygon points="96,78 74,8 50,46" fill="#f6c90e"/>
+              {/* 底部横条 */}
+              <rect x="4" y="74" width="92" height="16" rx="5" fill="#f6c90e"/>
+              {/* 左眼框 */}
+              <circle cx="30" cy="78" r="14" fill="#0d0d0d"/>
+              {/* 右眼框 */}
+              <circle cx="70" cy="78" r="14" fill="#0d0d0d"/>
+              {/* 左眼瞳孔 */}
+              <circle cx="30" cy="78" r="8" fill="#f6c90e"/>
+              {/* 右眼瞳孔 */}
+              <circle cx="70" cy="78" r="8" fill="#f6c90e"/>
+              {/* 左眼高光 */}
+              <circle cx="34" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
+              {/* 右眼高光 */}
+              <circle cx="74" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
             </svg>
             <div>
               <div style={{ fontSize: 18, fontWeight: 900, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</div>
@@ -154,12 +168,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* 手机端顶部 header */}
         <header className="apl-mobile-header" style={{ display: 'none', position: 'relative' }}>
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <svg width="32" height="29" viewBox="0 0 120 108" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M60 4 L116 104 L4 104 Z" fill="#f6c90e" stroke="none"/>
-              <ellipse cx="42" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
-              <ellipse cx="78" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
-              <ellipse cx="42" cy="80" rx="7" ry="9" fill="#f6c90e"/>
-              <ellipse cx="78" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+            <svg width="32" height="32" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="4,78 26,8 50,46" fill="#f6c90e"/>
+              <polygon points="96,78 74,8 50,46" fill="#f6c90e"/>
+              <rect x="4" y="74" width="92" height="16" rx="5" fill="#f6c90e"/>
+              <circle cx="30" cy="78" r="14" fill="#0d0d0d"/>
+              <circle cx="70" cy="78" r="14" fill="#0d0d0d"/>
+              <circle cx="30" cy="78" r="8" fill="#f6c90e"/>
+              <circle cx="70" cy="78" r="8" fill="#f6c90e"/>
+              <circle cx="34" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
+              <circle cx="74" cy="74" r="3" fill="rgba(255,255,255,0.75)"/>
             </svg>
             <span style={{ fontSize: 16, fontWeight: 800, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</span>
           </Link>
