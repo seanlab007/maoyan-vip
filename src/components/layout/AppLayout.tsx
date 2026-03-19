@@ -93,7 +93,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div style={{ padding: '24px 20px 20px' }}>
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663405311158/X9MpYGJw9J7Db3VAodtwJG/maoyan_logo_icon_0b5da8fe.png" alt="猫眼" style={{ width: 40, height: 29, objectFit: 'contain', filter: 'invert(1) sepia(1) saturate(3) hue-rotate(5deg)' }} />
+            <svg width="40" height="36" viewBox="0 0 120 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M60 4 L116 104 L4 104 Z" fill="#f6c90e" stroke="none"/>
+              <ellipse cx="42" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
+              <ellipse cx="78" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
+              <ellipse cx="42" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+              <ellipse cx="78" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+            </svg>
             <div>
               <div style={{ fontSize: 18, fontWeight: 900, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</div>
               <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: -2 }}>要搞钱 来猫眼</div>
@@ -148,7 +154,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* 手机端顶部 header */}
         <header className="apl-mobile-header" style={{ display: 'none', position: 'relative' }}>
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663405311158/X9MpYGJw9J7Db3VAodtwJG/maoyan_logo_icon_0b5da8fe.png" alt="猫眼" style={{ width: 32, height: 23, objectFit: 'contain', filter: 'invert(1) sepia(1) saturate(3) hue-rotate(5deg)' }} />
+            <svg width="32" height="29" viewBox="0 0 120 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M60 4 L116 104 L4 104 Z" fill="#f6c90e" stroke="none"/>
+              <ellipse cx="42" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
+              <ellipse cx="78" cy="82" rx="13" ry="16" fill="#1a1a1a"/>
+              <ellipse cx="42" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+              <ellipse cx="78" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+            </svg>
             <span style={{ fontSize: 16, fontWeight: 800, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

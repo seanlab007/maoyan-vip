@@ -68,7 +68,13 @@ export default function LandingPage() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(12,13,16,0.9)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #f6c90e, #f6a800)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 700, fontSize: 14 }}>猫</div>
+            <svg width="34" height="31" viewBox="0 0 120 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M60 4 L116 104 L4 104 Z" fill="#f6c90e" stroke="none"/>
+              <ellipse cx="42" cy="82" rx="13" ry="16" fill="#0c0d10"/>
+              <ellipse cx="78" cy="82" rx="13" ry="16" fill="#0c0d10"/>
+              <ellipse cx="42" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+              <ellipse cx="78" cy="80" rx="7" ry="9" fill="#f6c90e"/>
+            </svg>
             <span style={{ fontWeight: 700, fontSize: 18, background: 'linear-gradient(135deg, #f6c90e, #ffd94a, #f6a800)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼</span>
             <span style={{ color: '#5a6278', fontSize: 13 }}>maoyan.vip</span>
           </Link>
