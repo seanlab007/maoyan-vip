@@ -39,24 +39,34 @@ export default function LoginPage() {
     }, 1000)
   }
 
+  // 测试手机号（短信审核期间可用）
+  const TEST_PHONE = '13800138000'
+  const TEST_OTP = '123456'
+
   const handleSendSms = async () => {
     if (!phone || phone.length < 11) { toast.error('请输入正确的手机号'); return }
     if (countdown > 0) return
+
+    // 测试号码直接模拟发送
+    const cleanPhone = phone.replace(/\s/g, '')
+    if (cleanPhone === TEST_PHONE || cleanPhone === '+86' + TEST_PHONE) {
+      setSmsSent(true)
+      startCountdown()
+      toast.success('验证码已发送（测试码：' + TEST_OTP + '）', { duration: 5000 })
+      return
+    }
+
     setIsLoading(true)
     try {
       const fullPhone = phone.startsWith('+') ? phone : `+86${phone}`
       const { error } = await supabase.auth.signInWithOtp({ phone: fullPhone })
       if (error) {
-        // 短信服务审核中，友好提示但不跳转
-        if (error.message.includes('SMS') || error.message.includes('phone') || error.message.includes('not enabled') || error.message.includes('provider')) {
-          toast('📱 短信服务开通中，请稍后重试或使用邮箱登录', { icon: '⏳', duration: 5000 })
-        } else {
-          toast.error('发送失败：' + error.message)
-        }
+        // 短信审核中，友好提示
+        toast('📱 短信服务开通中，请稍后重试或使用邮箱登录', { icon: '⏳', duration: 5000 })
         return
       }
       setSmsSent(true)
-      setCountdown(60)
+      startCountdown()
       toast.success('验证码已发送，请查收短信')
     } catch {
       toast.error('发送失败，请稍后重试')
@@ -69,11 +79,50 @@ export default function LoginPage() {
     e.preventDefault()
     if (!otp || otp.length < 4) { toast.error('请输入验证码'); return }
     setIsLoading(true)
+
+    // 测试号码 Mock 登录
+    const cleanPhone = phone.replace(/\s/g, '')
+    if ((cleanPhone === TEST_PHONE || cleanPhone === '+86' + TEST_PHONE) && otp === TEST_OTP) {
+      try {
+        // 用测试账号登录（需要 Supabase 中存在此用户）
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: 'test@maoyan.vip',
+          password: 'test123456'
+        })
+        if (!error && data?.user) {
+          useAuthStore.getState().setUser(data.user)
+          if (data.session) useAuthStore.getState().setSession(data.session)
+          useAuthStore.getState().loadUserData(data.user.id)
+          trackLogin('phone')
+          toast.success('登录成功！欢迎回来 🎉')
+          navigate(from, { replace: true })
+          return
+        }
+        // 测试账号不存在，尝试创建
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email: 'test@maoyan.vip',
+          password: 'test123456',
+          options: { data: { nickname: '测试用户', phone: TEST_PHONE } }
+        })
+        if (!signUpError && signUpData?.user) {
+          useAuthStore.getState().setUser(signUpData.user)
+          if (signUpData.session) useAuthStore.getState().setSession(signUpData.session)
+          useAuthStore.getState().loadUserData(signUpData.user.id)
+          trackLogin('phone')
+          toast.success('登录成功！欢迎回来 🎉')
+          navigate(from, { replace: true })
+          return
+        }
+      } catch {}
+      toast.error('测试登录失败，请检查 Supabase 配置')
+      setIsLoading(false)
+      return
+    }
+
     try {
       const fullPhone = phone.startsWith('+') ? phone : `+86${phone}`
       const { data, error } = await supabase.auth.verifyOtp({ phone: fullPhone, token: otp, type: 'sms' })
       if (error) throw error
-      // 立即手动同步 user 到 authStore，不等 onAuthStateChange
       if (data?.user) {
         useAuthStore.getState().setUser(data.user)
         if (data.session) useAuthStore.getState().setSession(data.session)
