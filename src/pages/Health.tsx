@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import toast from 'react-hot-toast'
+import { supabase } from '@/lib/supabase'
+import { useAuthStore } from '@/store/authStore'
 
 // ─── 健康打卡分类 ───────────────────────────────────────────────────────────
 const HEALTH_CATEGORIES = [
@@ -58,8 +60,9 @@ const HEALTH_CATEGORIES = [
 
 // 睡眠时长评分规则
 const SLEEP_SCORE_RULES = [
-  { min: 9.5, max: 99,  score: -5,  label: '睡太多',  color: '#f87171', tip: '超过9.5小时可能影响代谢' },
-  { min: 7.5, max: 9.5, score: +10, label: '最佳',    color: '#22d3a0', tip: '7.5-9.5小时是黄金睡眠区间' },
+  { min: 11,  max: 99,  score: -5,  label: '睡太多',  color: '#f87171', tip: '超过11小时可能影响代谢' },
+  { min: 9,   max: 11,  score: +5,  label: '充足',    color: '#4a9eff', tip: '9-11小时睡眠充足，精力满满' },
+  { min: 7.5, max: 9,   score: +10, label: '最佳',    color: '#22d3a0', tip: '7.5-9小时是黄金睡眠区间' },
   { min: 6,   max: 7.5, score: +3,  label: '尚可',    color: '#f6c90e', tip: '6-7.5小时略显不足' },
   { min: 5,   max: 6,   score: -5,  label: '不足',    color: '#fb923c', tip: '5-6小时会加速衰老' },
   { min: 0,   max: 5,   score: -15, label: '严重不足', color: '#f87171', tip: '低于5小时严重损害健康' },
@@ -121,9 +124,10 @@ function calcDarkReward(streak: number): { amount: number; reason: string } {
   return { amount: 1, reason: '今日全部完成' }
 }
 
-// ─── 组件 ────────────────────────────────────────────────────────────────────
+// ─── 组件 ────────────────────────────────────────────────────────────────────────────────
 export default function HealthPage() {
   const today = TODAY()
+  const { user, wallet, setWallet } = useAuthStore()
 
   // 从 localStorage 初始化
   const [storage, setStorage] = useState<Record<string, unknown>>(() => loadStorage())
@@ -164,7 +168,7 @@ export default function HealthPage() {
     const nowComplete = doneCount === TOTAL_ITEMS
 
     if (nowComplete && !wasComplete) {
-      // 首次完成今天全部项目 → 发放喵值
+      // 首次完成今天全部项目 → 发放喵値
       const newCompleted = { ...completedDays, [today]: true }
       const newStreak = calcStreak({ ...completedDays, [today]: true })
       const reward = calcDarkReward(newStreak)
@@ -174,7 +178,45 @@ export default function HealthPage() {
       next['dark_balance'] = newDark
 
       persist(next)
-      toast.success(`🐱 恭喜！获得 ${reward.amount} 喵值（+${reward.amount}只小猫）（${reward.reason}）`, { duration: 4000 })
+      toast.success(`🐱 恭喜！获得 ${reward.amount} 喵値（+${reward.amount}只小猫）（${reward.reason}）`, { duration: 4000 })
+
+      // 将喵値奖励同步写入 Supabase wallet（积分累积）
+      if (user?.id) {
+        const pointsToAdd = reward.amount * 10 // 1喵値 = 10积分
+        ;(async () => {
+          try {
+            const { data: currentWallet } = await supabase
+              .from('wallets')
+              .select('balance, total_earned')
+              .eq('user_id', user.id)
+              .single() as { data: { balance: number; total_earned: number } | null }
+
+            const newBalance = (currentWallet?.balance || 0) + pointsToAdd
+            const newTotalEarned = (currentWallet?.total_earned || 0) + pointsToAdd
+
+            await supabase
+              .from('wallets')
+              .update({ balance: newBalance, total_earned: newTotalEarned } as never)
+              .eq('user_id', user.id)
+
+            await supabase.from('transactions').insert({
+              user_id: user.id,
+              type: 'health_checkin',
+              source: 'health_checkin',
+              amount: pointsToAdd,
+              balance_after: newBalance,
+              description: `🌿 变美打卡奖励（连续${newStreak}天），获得 ${reward.amount} 喵値`,
+            } as never)
+
+            // 更新本地 wallet 状态
+            if (wallet) {
+              setWallet({ ...wallet, balance: newBalance, total_earned: newTotalEarned })
+            }
+          } catch (err) {
+            console.error('喵値同步失败:', err)
+          }
+        })()
+      }
     } else {
       persist(next)
       if (doneCount > 0 && doneCount % 5 === 0) {
