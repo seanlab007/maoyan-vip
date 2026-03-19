@@ -42,9 +42,27 @@ export default function LoginPage() {
   const handleSendSms = async () => {
     if (!phone || phone.length < 11) { toast.error('请输入正确的手机号'); return }
     if (countdown > 0) return
-    // 手机短信服务暂未开通，提示用户使用邮箱登录
-    toast('📧 手机验证码暂未开通，请使用邮箱登录', { icon: '💡', duration: 4000 })
-    setMode('email')
+    setIsLoading(true)
+    try {
+      const fullPhone = phone.startsWith('+') ? phone : `+86${phone}`
+      const { error } = await supabase.auth.signInWithOtp({ phone: fullPhone })
+      if (error) {
+        // 短信服务审核中，友好提示但不跳转
+        if (error.message.includes('SMS') || error.message.includes('phone') || error.message.includes('not enabled') || error.message.includes('provider')) {
+          toast('📱 短信服务开通中，请稍后重试或使用邮箱登录', { icon: '⏳', duration: 5000 })
+        } else {
+          toast.error('发送失败：' + error.message)
+        }
+        return
+      }
+      setSmsSent(true)
+      setCountdown(60)
+      toast.success('验证码已发送，请查收短信')
+    } catch {
+      toast.error('发送失败，请稍后重试')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handlePhoneLogin = async (e: React.FormEvent) => {
