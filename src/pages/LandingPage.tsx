@@ -94,7 +94,7 @@ export default function LandingPage() {
               <span style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, background: 'linear-gradient(135deg, #22d3a0, #4a9eff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>💰 搞钱 · 🤝 社交 · 🌿 变美</span>
             </h1>
             <p style={{ color: '#9ba3b8', fontSize: 18, marginBottom: 32, lineHeight: 1.7 }}>
-              三大板块，一个 App 搞定：<strong style={{ color: '#f6c90e' }}>搞钱</strong>（签到/消费积分/短剧投资）、<strong style={{ color: '#4a9eff' }}>社交</strong>（短剧投资/排行榜/名片）、<strong style={{ color: '#22d3a0' }}>变美</strong>（健康打卡/寿命预测）。
+              三大板块，一个 App 搞定：<strong style={{ color: '#f6c90e' }}>搞钱</strong>（领任务发钱，自用省钱，分享赚钱）、<strong style={{ color: '#4a9eff' }}>社交</strong>（带你拍短剧，收费组局，网红见面）、<strong style={{ color: '#22d3a0' }}>变美</strong>（抗炎饮食，长寿规划）。
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 40 }}>
               <Link to="/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg, #f6c90e, #f6a800)', color: '#000', fontWeight: 700, padding: '12px 24px', borderRadius: 99, fontSize: 14, textDecoration: 'none' }}>
@@ -190,7 +190,7 @@ export default function LandingPage() {
                   <div style={{ background: 'linear-gradient(135deg, #92400e, #d97706, #b45309)', borderRadius: 16, padding: 24, marginBottom: 16, color: '#fff', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', inset: 0, opacity: 0.1, background: 'radial-gradient(ellipse at top right, white 0%, transparent 70%)' }} />
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
-                      <div><p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 2, opacity: 0.7 }}>猫眼 · maoyan.vip</p><p style={{ fontSize: 14, fontWeight: 600 }}>Gold 网红卡</p></div>
+                      <div><p style={{ fontSize: 11, letterSpacing: 1, opacity: 0.7 }}>猫眼 · MAOYAN.VIP</p><p style={{ fontSize: 14, fontWeight: 600 }}>黄金 网红卡</p></div>
                       <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>💳</div>
                     </div>
                     <p style={{ fontFamily: 'monospace', fontSize: 18, letterSpacing: 4, marginBottom: 16, opacity: 0.9 }}>•••• •••• •••• 8888</p>
