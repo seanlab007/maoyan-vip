@@ -131,13 +131,14 @@ export interface DrawRecord {
 }
 
 export interface DrawResponse {
-  success: boolean
-  draw: DrawRecord
+  /** "win" | "lose" */
+  result: string
   prize: { rank: number; name: string; value: string }
-  isWin: boolean
   pointsSpent: number
-  pointsReturned: number
   newBalance: number
+  drawId: number
+  /** 便捷字段：isWin = result === 'win' */
+  isWin?: boolean
 }
 
 export interface UserLink {
@@ -192,8 +193,8 @@ export const pointsApi = {
 // ── 抽奖 API ──────────────────────────────────────────────────────────────────
 
 export const lotteryApi = {
-  /** 获取所有活跃抽奖活动 */
-  getAll: (): Promise<{ data: Lottery[] }> =>
+  /** 获取所有活跃抽奖活动（后端直接返回数组） */
+  getAll: (): Promise<Lottery[]> =>
     get('/api/points-lottery/lotteries'),
 
   /** 执行抽奖（maoyan 用户） */

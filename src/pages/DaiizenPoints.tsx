@@ -106,9 +106,10 @@ export default function DaiizenPoints() {
         setLinked(pointsRes.value.linked)
       }
       if (lotteriesRes.status === 'fulfilled') {
-        setLotteries(lotteriesRes.value.data)
-        if (lotteriesRes.value.data.length > 0) {
-          setSelectedLottery(lotteriesRes.value.data[0])
+        const list = Array.isArray(lotteriesRes.value) ? lotteriesRes.value : (lotteriesRes.value as any).data ?? []
+        setLotteries(list)
+        if (list.length > 0) {
+          setSelectedLottery(list[0])
         }
       }
     } finally {
@@ -168,8 +169,9 @@ export default function DaiizenPoints() {
       // 让动画至少跑 2.5s
       await new Promise(r => setTimeout(r, 2500))
       setSpinning(false)
+      const isWin = res.result === 'win' || res.isWin === true
       setLastResult({
-        isWin: res.isWin,
+        isWin,
         prizeName: res.prize.name,
         prizeValue: res.prize.value,
         newBalance: res.newBalance,
