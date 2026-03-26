@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useAuthStore } from '@/store/authStore'
 import { getTransactions, redeemProduct } from '@/api/wallet'
+import { getMaoWalletSummary, getMaoTransactions, getCrossPlatformOrders } from '@/api/cross-platform'
 import { supabase } from '@/lib/supabase'
 import type { Transaction, Product } from '@/types/database'
 import toast from 'react-hot-toast'
@@ -11,20 +12,30 @@ export default function WalletPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
-  const [activeTab, setActiveTab] = useState<'transactions' | 'redeem'>('transactions')
+  const [activeTab, setActiveTab] = useState<'transactions' | 'cross_platform' | 'redeem'>('transactions')
   const [loading, setLoading] = useState(false)
+  // MAO 积分（跨平台积分）
+  const [maoBalance, setMaoBalance] = useState(0)
+  const [maoTransactions, setMaoTransactions] = useState<Record<string, unknown>[]>([])
+  const [crossOrders, setCrossOrders] = useState<Record<string, unknown>[]>([])
 
   const loadData = useCallback(async () => {
     if (!user) return
     setLoading(true)
     try {
-      const [txRes, prodRes] = await Promise.all([
+      const [txRes, prodRes, maoSummary, maoTxs, orders] = await Promise.all([
         getTransactions(user.id, page, 20),
         supabase.from('products').select('*').eq('is_active', true).order('sort_order'),
+        getMaoWalletSummary(),
+        getMaoTransactions(20),
+        getCrossPlatformOrders(20),
       ])
       setTransactions(txRes.data)
       setTotal(txRes.count)
       if (prodRes.data) setProducts(prodRes.data as Product[])
+      if (maoSummary) setMaoBalance(maoSummary.maoBalance)
+      setMaoTransactions(maoTxs as Record<string, unknown>[])
+      setCrossOrders(orders as Record<string, unknown>[])
     } finally {
       setLoading(false)
     }
@@ -84,6 +95,31 @@ export default function WalletPage() {
         </div>
       </div>
 
+      {/* MAO 跨平台积分卡 */}
+      <div style={{
+        background: 'linear-gradient(135deg, #1a1400, #2a2000)',
+        border: '1px solid #C9A84C40',
+        borderRadius: 12,
+        padding: '16px 20px',
+        marginBottom: 16,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <div>
+          <div style={{ fontSize: 12, color: '#C9A84C90', marginBottom: 4 }}>🪙 MAO 跨平台积分</div>
+          <div style={{ fontSize: 28, fontWeight: 700, color: '#C9A84C', fontFamily: 'monospace' }}>
+            {maoBalance.toLocaleString()}
+          </div>
+          <div style={{ fontSize: 11, color: '#888', marginTop: 4 }}>
+            在 Daiizen、Lacelle1802、WhalePictures 等平台消费自动返 10%
+          </div>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: 11, color: '#C9A84C60' }}>1 USD 消费 = 10 MAO</div>
+        </div>
+      </div>
+
       {/* 如何赚积分 */}
       <div className="earn-methods">
         <h3>赚积分方式</h3>
@@ -110,10 +146,59 @@ export default function WalletPage() {
           onClick={() => setActiveTab('transactions')}
         >积分明细</button>
         <button
+          className={`tab-btn ${activeTab === 'cross_platform' ? 'active' : ''}`}
+          onClick={() => setActiveTab('cross_platform')}
+        >🌐 MAO 跨平台</button>
+        <button
           className={`tab-btn ${activeTab === 'redeem' ? 'active' : ''}`}
           onClick={() => setActiveTab('redeem')}
         >积分兑换</button>
       </div>
+
+      {/* MAO 跨平台流水 */}
+      {activeTab === 'cross_platform' && (
+        <div style={{ padding: '0 0 16px' }}>
+          <h4 style={{ fontSize: 13, color: '#C9A84C', marginBottom: 12, fontWeight: 600 }}>
+            跨平台消费记录（每笔消费返 10% MAO 积分）
+          </h4>
+          {crossOrders.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px 0', color: '#555', fontSize: 13 }}>
+              暂无跨平台消费记录<br/>
+              <span style={{ fontSize: 11, color: '#444', marginTop: 8, display: 'block' }}>
+                在 Daiizen / Lacelle1802 等合作平台消费后，积分将自动出现在这里
+              </span>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {crossOrders.map((o, i) => (
+                <div key={i} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '10px 14px', background: '#111', borderRadius: 8,
+                  border: '1px solid #1e1e1e',
+                }}>
+                  <div>
+                    <div style={{ fontSize: 12, color: '#ddd', fontWeight: 500 }}>
+                      {String(o.platform).toUpperCase()} — 订单 #{String(o.platform_order_id)}
+                    </div>
+                    <div style={{ fontSize: 11, color: '#555', marginTop: 2 }}>
+                      消费 ${String(o.order_amount_usd)} {String(o.currency)} ·{' '}
+                      {new Date(String(o.created_at)).toLocaleDateString('zh-CN')}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 14, color: '#C9A84C', fontWeight: 700 }}>
+                      +{Number(o.mao_reward).toLocaleString()} MAO
+                    </div>
+                    <div style={{ fontSize: 10, color: o.status === 'credited' ? '#4CAF50' : '#888', marginTop: 2 }}>
+                      {o.status === 'credited' ? '✓ 已到账' : '⏳ 结算中'}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* 积分明细 */}
       {activeTab === 'transactions' && (
