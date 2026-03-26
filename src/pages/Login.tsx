@@ -84,38 +84,65 @@ export default function LoginPage() {
     const cleanPhone = phone.replace(/\s/g, '')
     if ((cleanPhone === TEST_PHONE || cleanPhone === '+86' + TEST_PHONE) && otp === TEST_OTP) {
       try {
-        // 用测试账号登录（需要 Supabase 中存在此用户）
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: 'test@maoyan.vip',
-          password: 'test123456'
+        // 使用测试邮箱登录
+        const testEmail = '13800138000@test.maoyan.vip'
+        const testPassword = '123456'
+
+        // 尝试登录
+        let { data, error } = await supabase.auth.signInWithPassword({
+          email: testEmail,
+          password: testPassword
         })
-        if (!error && data?.user) {
+
+        // 如果登录失败，尝试注册测试账号
+        if (error) {
+          console.log('测试账号不存在，正在创建...')
+          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email: testEmail,
+            password: testPassword,
+            options: {
+              data: {
+                nickname: '测试用户',
+                phone: TEST_PHONE,
+                referral_code: null
+              },
+              emailRedirectTo: window.location.origin + '/login'
+            }
+          })
+
+          if (signUpError) {
+            throw signUpError
+          }
+
+          // 等待用户创建
+          await new Promise(resolve => setTimeout(resolve, 1500))
+
+          // 再次尝试登录
+          const loginResult = await supabase.auth.signInWithPassword({
+            email: testEmail,
+            password: testPassword
+          })
+          data = loginResult.data
+          error = loginResult.error
+        }
+
+        if (error) throw error
+
+        if (data?.user) {
           useAuthStore.getState().setUser(data.user)
           if (data.session) useAuthStore.getState().setSession(data.session)
-          useAuthStore.getState().loadUserData(data.user.id)
+          await useAuthStore.getState().loadUserData(data.user.id)
           trackLogin('phone')
           toast.success('登录成功！欢迎回来 🎉')
           navigate(from, { replace: true })
-          return
         }
-        // 测试账号不存在，尝试创建
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-          email: 'test@maoyan.vip',
-          password: 'test123456',
-          options: { data: { nickname: '测试用户', phone: TEST_PHONE } }
-        })
-        if (!signUpError && signUpData?.user) {
-          useAuthStore.getState().setUser(signUpData.user)
-          if (signUpData.session) useAuthStore.getState().setSession(signUpData.session)
-          useAuthStore.getState().loadUserData(signUpData.user.id)
-          trackLogin('phone')
-          toast.success('登录成功！欢迎回来 🎉')
-          navigate(from, { replace: true })
-          return
-        }
-      } catch {}
-      toast.error('测试登录失败，请检查 Supabase 配置')
-      setIsLoading(false)
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : '登录失败'
+        console.error('测试登录错误:', err)
+        toast.error(msg)
+      } finally {
+        setIsLoading(false)
+      }
       return
     }
 
@@ -145,19 +172,27 @@ export default function LoginPage() {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
+
       // 先跳转，再后台加载用户数据（避免loadUserData卡住导致navigate不执行）
       trackLogin('email')
       toast.success('欢迎回来！')
       navigate(from, { replace: true })
+
       // 后台异步同步 user 到 authStore
       if (data?.user) {
         useAuthStore.getState().setUser(data.user)
         if (data.session) useAuthStore.getState().setSession(data.session)
-        useAuthStore.getState().loadUserData(data.user.id)
+        await useAuthStore.getState().loadUserData(data.user.id)
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '登录失败'
-      toast.error(msg.includes('Invalid login credentials') ? '邮箱或密码错误' : msg)
+      if (msg.includes('Invalid login credentials')) {
+        toast.error('邮箱或密码错误')
+      } else if (msg.includes('Email not confirmed')) {
+        toast.error('请先验证邮箱')
+      } else {
+        toast.error(msg)
+      }
     } finally {
       setIsLoading(false)
     }
