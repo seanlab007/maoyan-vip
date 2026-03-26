@@ -66,7 +66,7 @@ export const useAuthStore = create<AuthState>()(
 
       loadUserData: async (userId: string) => {
         // 确保 unified_profiles 和 maoyan_wallets 记录存在
-        await supabase.rpc('ensure_wallet', { p_user_id: userId }).catch(() => {})
+        try { await supabase.rpc('ensure_wallet', { p_user_id: userId }) } catch (_) {}
         try {
           const [profileRes, walletRes] = await Promise.all([
             supabase.from('profiles').select('*').eq('id', userId).single(),

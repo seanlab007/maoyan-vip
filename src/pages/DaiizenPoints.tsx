@@ -9,7 +9,7 @@ function fmt(n: number) { return n.toLocaleString() }
 // ── 抽奖动画圆盘 ──────────────────────────────────────────────────────────────
 function WheelAnimation({ spinning, result }: { spinning: boolean; result: string | null }) {
   const [angle, setAngle] = useState(0)
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | undefined>(undefined)
   const startRef = useRef(0)
   const spinningRef = useRef(false)
 
