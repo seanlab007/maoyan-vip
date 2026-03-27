@@ -22,6 +22,7 @@ const CreatorCardPage = React.lazy(() => import('@/pages/CreatorCard'))
 const DramaPage = React.lazy(() => import('@/pages/Drama'))
 const DaiizenPointsPage = React.lazy(() => import('@/pages/DaiizenPoints'))
 const ProductSelectionPage = React.lazy(() => import('@/pages/ProductSelection'))
+const BundleStorePage = React.lazy(() => import('@/pages/BundleStore'))
 const LandingPage = React.lazy(() => import('@/pages/LandingPage'))
 const TestAuthPage = React.lazy(() => import('@/pages/TestAuth'))
 const ConsumptionPointsPage = React.lazy(() => import('@/pages/ConsumptionPoints'))
@@ -73,6 +74,7 @@ function AppRoutes() {
           <Route path="/profile" element={<ProtectedRoute><AppLayout><ProfilePage /></AppLayout></ProtectedRoute>} />
           <Route path="/daiizen-points" element={<ProtectedRoute><AppLayout><DaiizenPointsPage /></AppLayout></ProtectedRoute>} />
           <Route path="/product-selection" element={<ProtectedRoute><AppLayout><ProductSelectionPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/bundle-store" element={<AppLayout><BundleStorePage /></AppLayout>} />
 
           {/* 受保护页面 - 变美 Tab */}
           <Route path="/health" element={<ProtectedRoute><AppLayout><HealthPage /></AppLayout></ProtectedRoute>} />

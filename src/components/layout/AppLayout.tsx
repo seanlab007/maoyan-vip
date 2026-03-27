@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages'] },
   { id: 'social', path: '/drama', icon: '🤝', label: '社交', subPaths: ['/drama', '/leaderboard', '/profile'] },
   { id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health'] },
-  { id: 'daiizen', path: '/daiizen-points', icon: '🛍️', label: 'daiizen', subPaths: ['/daiizen-points', '/product-selection'] },
+  { id: 'daiizen', path: '/daiizen-points', icon: '🛍️', label: 'daiizen', subPaths: ['/daiizen-points', '/product-selection', '/bundle-store'] },
 ]
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -135,11 +135,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             )
           })}
           {/* daiizen 子菜单 */}
-          {(location.pathname.startsWith('/daiizen') || location.pathname.startsWith('/product-selection')) && (
+          {(location.pathname.startsWith('/daiizen') || location.pathname.startsWith('/product-selection') || location.pathname.startsWith('/bundle-store')) && (
             <div style={{ marginTop: 2, marginLeft: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {[
                 { to: '/daiizen-points', label: '🪙 积分 & 抽奖' },
                 { to: '/product-selection', label: '🛒 选品中心' },
+                { to: '/bundle-store', label: '🏪 套餐商城' },
               ].map(sub => (
                 <Link key={sub.to} to={sub.to} style={{
                   display: 'block', padding: '8px 14px', borderRadius: 8, fontSize: 13,
