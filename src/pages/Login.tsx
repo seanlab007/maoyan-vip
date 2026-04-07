@@ -31,6 +31,28 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showForgot, setShowForgot] = useState(false)
+  const [forgotEmail, setForgotEmail] = useState('')
+  const [forgotSent, setForgotSent] = useState(false)
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!forgotEmail) { toast.error('请输入注册邮箱'); return }
+    setIsLoading(true)
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
+        redirectTo: window.location.origin + '/reset-password',
+      })
+      if (error) throw error
+      setForgotSent(true)
+      toast.success('重置链接已发送，请查收邮件 📧', { duration: 6000 })
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : '发送失败'
+      toast.error(msg)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const startCountdown = () => {
     setCountdown(60)
@@ -205,8 +227,39 @@ export default function LoginPage() {
           <MaoLogo size={44} eyeInnerColor="#1a1a1a" />
           <span className="logo-text" style={{ fontSize: 22, fontWeight: 900, background: 'linear-gradient(135deg,#f6c90e,#ffd94a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>猫眼 MaoYan</span>
         </div>
-        <h1 className="auth-title">欢迎回来</h1>
-        <p className="auth-subtitle">登录您的达人账号</p>
+
+        {/* 忘记密码模式 */}
+        {showForgot ? (
+          <>
+            <h1 className="auth-title">重置密码</h1>
+            <p className="auth-subtitle">输入注册邮箱，我们发送重置链接给你</p>
+            {forgotSent ? (
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                <div style={{ fontSize: 48, marginBottom: 12 }}>📧</div>
+                <p style={{ color: '#f0f2f8', marginBottom: 8 }}>重置邮件已发送</p>
+                <p style={{ color: '#9ba3b8', fontSize: 13 }}>请查收 <strong style={{ color: '#f6c90e' }}>{forgotEmail}</strong> 的邮件</p>
+                <button type="button" onClick={() => { setShowForgot(false); setForgotSent(false); setForgotEmail('') }}
+                  className="btn-primary" style={{ marginTop: 20 }}>返回登录</button>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword} className="auth-form">
+                <div className="field">
+                  <label>注册邮箱</label>
+                  <input value={forgotEmail} onChange={e => setForgotEmail(e.target.value)} type="email" placeholder="your@email.com" autoFocus />
+                </div>
+                <button type="submit" className="btn-primary" disabled={isLoading}>
+                  {isLoading ? '发送中...' : '发送重置链接'}
+                </button>
+                <p className="auth-switch" style={{ marginTop: 12 }}>
+                  <button type="button" onClick={() => setShowForgot(false)} style={{ background: 'none', border: 'none', color: '#f6c90e', cursor: 'pointer', fontSize: 14 }}>← 返回登录</button>
+                </p>
+              </form>
+            )}
+          </>
+        ) : (
+          <>
+            <h1 className="auth-title">欢迎回来</h1>
+            <p className="auth-subtitle">登录您的达人账号</p>
 
         {/* OAuth buttons */}
         <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
@@ -274,7 +327,13 @@ export default function LoginPage() {
               <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="your@email.com" />
             </div>
             <div className="field">
-              <label>密码</label>
+              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>密码</span>
+                <button type="button" onClick={() => { setShowForgot(true); setForgotEmail(email) }}
+                  style={{ background: 'none', border: 'none', color: '#f6c90e', cursor: 'pointer', fontSize: 12, padding: 0 }}>
+                  忘记密码？
+                </button>
+              </label>
               <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="输入密码" />
             </div>
             <button type="submit" className="btn-primary" disabled={isLoading}>
@@ -286,6 +345,8 @@ export default function LoginPage() {
         <p className="auth-switch">
           还没有账号？<Link to="/register" className="link">免费注册</Link>，送100积分
         </p>
+          </>
+        )}
       </div>
     </div>
   )

@@ -14,6 +14,7 @@ import '@/styles/landing.css'
 const HomePage = React.lazy(() => import('@/pages/Home'))
 const LoginPage = React.lazy(() => import('@/pages/Login'))
 const RegisterPage = React.lazy(() => import('@/pages/Register'))
+const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPassword'))
 const DashboardPage = React.lazy(() => import('@/pages/Dashboard'))
 const WalletPage = React.lazy(() => import('@/pages/Wallet'))
 const ProfilePage = React.lazy(() => import('@/pages/Profile'))
@@ -58,6 +59,7 @@ function AppRoutes() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/test-auth" element={<TestAuthPage />} />
           <Route path="/u/:username" element={<CreatorCardPage />} />
 
