@@ -9,7 +9,7 @@ const SIDEBAR_W = 260
 const NAV_ITEMS = [
   { id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages'] },
   { id: 'social', path: '/drama', icon: '🤝', label: '社交', subPaths: ['/drama', '/leaderboard', '/profile'] },
-  { id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health'] },
+  { id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course', '/fortune'] },
   { id: 'daiizen', path: '/daiizen-points', icon: '🛍️', label: 'daiizen', subPaths: ['/daiizen-points', '/product-selection', '/bundle-store'] },
 ]
 
@@ -147,6 +147,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   color: location.pathname === sub.to ? 'var(--gold)' : 'var(--text3)',
                   textDecoration: 'none', fontWeight: location.pathname === sub.to ? 700 : 400,
                   background: location.pathname === sub.to ? 'rgba(246,201,14,0.07)' : 'transparent',
+                }}>{sub.label}</Link>
+              ))}
+            </div>
+          )}
+          {/* 变美子菜单 */}
+          {(location.pathname.startsWith('/fortune') || location.pathname === '/health' || location.pathname === '/one-face') && (
+            <div style={{ marginTop: 2, marginLeft: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {[
+                { to: '/health', label: '🌿 健康' },
+                { to: '/one-face', label: '👆 一面' },
+                { to: '/fortune', label: '🔮 命理小馆' },
+              ].map(sub => (
+                <Link key={sub.to} to={sub.to} style={{
+                  display: 'block', padding: '8px 14px', borderRadius: 8, fontSize: 13,
+                  color: location.pathname === sub.to || (sub.to === '/fortune' && location.pathname.startsWith('/fortune')) ? 'var(--gold)' : 'var(--text3)',
+                  textDecoration: 'none', fontWeight: (sub.to === '/fortune' && location.pathname.startsWith('/fortune')) ? 700 : (location.pathname === sub.to ? 700 : 400),
+                  background: (sub.to === '/fortune' && location.pathname.startsWith('/fortune')) ? 'rgba(246,201,14,0.07)' : (location.pathname === sub.to ? 'rgba(246,201,14,0.07)' : 'transparent'),
                 }}>{sub.label}</Link>
               ))}
             </div>

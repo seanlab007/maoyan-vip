@@ -38,6 +38,12 @@ const GroupEventsPage = React.lazy(() => import('@/pages/GroupEvents'))
 const StockInvestPage = React.lazy(() => import('@/pages/StockInvest'))
 const LearnEarnPage = React.lazy(() => import('@/pages/LearnEarn'))
 const SellCoursePage = React.lazy(() => import('@/pages/SellCourse'))
+const FortuneHubPage = React.lazy(() => import('@/pages/FortuneHub'))
+const FortuneBaziPage = React.lazy(() => import('@/pages/FortuneBazi'))
+const FortuneMarriagePage = React.lazy(() => import('@/pages/FortuneMarriage'))
+const FortuneWealthPage = React.lazy(() => import('@/pages/FortuneWealth'))
+const FortuneDailyPage = React.lazy(() => import('@/pages/FortuneDaily'))
+const FortuneNamePage = React.lazy(() => import('@/pages/FortuneName'))
 
 function AnalyticsTracker() {
   const location = useLocation()
@@ -88,6 +94,14 @@ function AppRoutes() {
           <Route path="/stock-invest" element={<ProtectedRoute><AppLayout><StockInvestPage /></AppLayout></ProtectedRoute>} />
           <Route path="/learn-earn" element={<ProtectedRoute><AppLayout><LearnEarnPage /></AppLayout></ProtectedRoute>} />
           <Route path="/sell-course" element={<ProtectedRoute><AppLayout><SellCoursePage /></AppLayout></ProtectedRoute>} />
+
+          {/* 命理小馆 - 变美板块 */}
+          <Route path="/fortune" element={<ProtectedRoute><AppLayout><FortuneHubPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/bazi" element={<ProtectedRoute><AppLayout><FortuneBaziPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/marriage" element={<ProtectedRoute><AppLayout><FortuneMarriagePage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/wealth" element={<ProtectedRoute><AppLayout><FortuneWealthPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/daily" element={<ProtectedRoute><AppLayout><FortuneDailyPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/name" element={<ProtectedRoute><AppLayout><FortuneNamePage /></AppLayout></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
