@@ -70,6 +70,18 @@ const TASK_GROUPS = [
       { id:'course_sell', icon:'💡', title:'卖自己的课程', desc:'上传课程大纲，通过审核后开始销售，按销售额分成', reward:'课程分成', color:'#f066aa', path:'/sell-course', unlocked:true },
     ]
   },
+  {
+    id: 'fortune',
+    title: '🔮 命理小馆',
+    subtitle: '知命改运，趋吉避凶',
+    tasks: [
+      { id:'fortune_hub', icon:'🏮', title:'命理小馆', desc:'八字排盘、姻缘测算、财运分析、每日运势、姓名测试', reward:'免费体验', color:'#e74c8b', path:'/fortune', unlocked:true },
+      { id:'fortune_bazi', icon:'📜', title:'八字排盘', desc:'输入出生时间，精准排出四柱八字，解读命格', reward:'免费', color:'#f6c90e', path:'/fortune/bazi', unlocked:true },
+      { id:'fortune_wealth', icon:'💰', title:'财运分析', desc:'根据八字五行分析你的财运走势和理财建议', reward:'免费', color:'#22d3a0', path:'/fortune/wealth', unlocked:true },
+      { id:'fortune_daily', icon:'🌅', title:'每日运势', desc:'每天查看专属运势，把握最佳时机', reward:'每日更新', color:'#4a9eff', path:'/fortune/daily', unlocked:true },
+      { id:'fortune_marriage', icon:'💕', title:'姻缘测算', desc:'双方八字合婚，看看你们的缘分指数', reward:'免费', color:'#f066aa', path:'/fortune/marriage', unlocked:true },
+    ]
+  },
 ]
 
 const ALL_TASKS = TASK_GROUPS.flatMap(g => g.tasks)
