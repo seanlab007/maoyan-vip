@@ -151,8 +151,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               ))}
             </div>
           )}
-          {/* 变美子菜单 */}
-          {(location.pathname.startsWith('/fortune') || location.pathname === '/health' || location.pathname === '/one-face') && (
+          {/* 变美子菜单 - 只要变美Tab激活就展开 */}
+          {isTabActive({ id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course', '/fortune'] }) && (
             <div style={{ marginTop: 2, marginLeft: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {[
                 { to: '/health', label: '🌿 健康' },
@@ -217,6 +217,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <main className="apl-main">
           {children}
         </main>
+
+        {/* 手机端变美二级 Tab（当变美激活时显示在底部Tab上方） */}
+        {isTabActive({ id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course', '/fortune'] }) && (
+          <nav className="apl-mobile-tabs" style={{ display: 'none', borderTop: '1px solid rgba(246,201,14,0.15)', paddingTop: 4, background: 'rgba(246,201,14,0.04)' }}>
+            {[
+              { to: '/health', icon: '🌿', label: '健康' },
+              { to: '/one-face', icon: '👆', label: '一面' },
+              { to: '/fortune', icon: '🔮', label: '命理小馆' },
+            ].map(sub => {
+              const active = sub.to === '/fortune' ? location.pathname.startsWith('/fortune') : location.pathname === sub.to
+              return (
+                <Link key={sub.to} to={sub.to} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '6px 0 4px', gap: 2, textDecoration: 'none' }}>
+                  <span style={{ fontSize: 18, filter: active ? 'none' : 'grayscale(0.5) opacity(0.6)' }}>{sub.icon}</span>
+                  <span style={{ fontSize: 10, fontWeight: active ? 700 : 400, color: active ? 'var(--gold)' : 'var(--text3)' }}>{sub.label}</span>
+                </Link>
+              )
+            })}
+          </nav>
+        )}
 
         {/* 手机端底部 Tab */}
         <nav className="apl-mobile-tabs" style={{ display: 'none' }}>
