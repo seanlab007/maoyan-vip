@@ -7,9 +7,9 @@ import { MaoLogo } from '@/components/MaoLogo'
 const SIDEBAR_W = 260
 
 const NAV_ITEMS = [
-  { id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages'] },
+  { id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages', '/fortune'] },
   { id: 'social', path: '/drama', icon: '🤝', label: '社交', subPaths: ['/drama', '/leaderboard', '/profile'] },
-  { id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course', '/fortune'] },
+  { id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course'] },
   { id: 'daiizen', path: '/daiizen-points', icon: '🛍️', label: 'daiizen', subPaths: ['/daiizen-points', '/product-selection', '/bundle-store'] },
 ]
 
@@ -151,12 +151,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               ))}
             </div>
           )}
-          {/* 变美子菜单 - 只要变美Tab激活就展开 */}
-          {isTabActive({ id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course', '/fortune'] }) && (
+          {/* 搞钱子菜单 - 命理小馆 */}
+          {isTabActive({ id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages', '/fortune'] }) && (
             <div style={{ marginTop: 2, marginLeft: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {[
-                { to: '/health', label: '🌿 健康' },
-                { to: '/one-face', label: '👆 一面' },
                 { to: '/fortune', label: '🔮 命理小馆' },
               ].map(sub => (
                 <Link key={sub.to} to={sub.to} style={{
@@ -164,6 +162,22 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   color: location.pathname === sub.to || (sub.to === '/fortune' && location.pathname.startsWith('/fortune')) ? 'var(--gold)' : 'var(--text3)',
                   textDecoration: 'none', fontWeight: (sub.to === '/fortune' && location.pathname.startsWith('/fortune')) ? 700 : (location.pathname === sub.to ? 700 : 400),
                   background: (sub.to === '/fortune' && location.pathname.startsWith('/fortune')) ? 'rgba(246,201,14,0.07)' : (location.pathname === sub.to ? 'rgba(246,201,14,0.07)' : 'transparent'),
+                }}>{sub.label}</Link>
+              ))}
+            </div>
+          )}
+          {/* 变美子菜单 */}
+          {isTabActive({ id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course'] }) && (
+            <div style={{ marginTop: 2, marginLeft: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {[
+                { to: '/health', label: '🌿 健康' },
+                { to: '/one-face', label: '👆 一面' },
+              ].map(sub => (
+                <Link key={sub.to} to={sub.to} style={{
+                  display: 'block', padding: '8px 14px', borderRadius: 8, fontSize: 13,
+                  color: location.pathname === sub.to ? 'var(--gold)' : 'var(--text3)',
+                  textDecoration: 'none', fontWeight: location.pathname === sub.to ? 700 : 400,
+                  background: location.pathname === sub.to ? 'rgba(246,201,14,0.07)' : 'transparent',
                 }}>{sub.label}</Link>
               ))}
             </div>
@@ -218,12 +232,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {children}
         </main>
 
-        {/* 手机端变美二级 Tab（当变美激活时显示在底部Tab上方） */}
-        {isTabActive({ id: 'beauty', path: '/health', icon: '🌿', label: '变美', subPaths: ['/health', '/one-face', '/product-review', '/moments-ad', '/livestream', '/group-events', '/stock-invest', '/learn-earn', '/sell-course', '/fortune'] }) && (
+        {/* 手机端搞钱二级 Tab（当搞钱激活且在命理页面时显示） */}
+        {isTabActive({ id: 'earn', path: '/dashboard', icon: '💰', label: '搞钱', subPaths: ['/dashboard', '/wallet', '/consumption-points', '/group-buy', '/one-face', '/vip-packages', '/fortune'] }) && location.pathname.startsWith('/fortune') && (
           <nav className="apl-mobile-tabs" style={{ display: 'none', borderTop: '1px solid rgba(246,201,14,0.15)', paddingTop: 4, background: 'rgba(246,201,14,0.04)' }}>
             {[
-              { to: '/health', icon: '🌿', label: '健康' },
-              { to: '/one-face', icon: '👆', label: '一面' },
+              { to: '/dashboard', icon: '💰', label: '搞钱首页' },
               { to: '/fortune', icon: '🔮', label: '命理小馆' },
             ].map(sub => {
               const active = sub.to === '/fortune' ? location.pathname.startsWith('/fortune') : location.pathname === sub.to

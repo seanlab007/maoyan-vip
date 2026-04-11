@@ -1,7 +1,7 @@
 /**
  * 姻缘测算模块
  * 基于双方八字计算配对指数、缘分分析
- * 面向女性用户优化
+ * 支持任意性别组合
  */
 
 import { calculateBazi, BaziResult, TIAN_GAN, WU_XING_GAN, DI_ZHI, WU_XING_ZHI } from './bazi'
@@ -97,10 +97,10 @@ function calcWuXingMatch(wx1: Record<string, number>, wx2: Record<string, number
   let complementScore = 0
   all.forEach(wx => {
     const diff = Math.abs((wx1[wx] || 0) - (wx2[wx] || 0))
-    if (diff === 0 && (wx1[wx] || 0) > 0) complementScore += 20 // 都有且平衡
-    else if (diff <= 1) complementScore += 15 // 小差异
-    else if (wx1[wx] === 0 && (wx2[wx] || 0) >= 2) complementScore += 12 // 一方缺另一方补
-    else if (wx1[wx] === 0 && wx2[wx] === 0) complementScore += 5 // 都缺
+    if (diff === 0 && (wx1[wx] || 0) > 0) complementScore += 20
+    else if (diff <= 1) complementScore += 15
+    else if (wx1[wx] === 0 && (wx2[wx] || 0) >= 2) complementScore += 12
+    else if (wx1[wx] === 0 && wx2[wx] === 0) complementScore += 5
     else complementScore += 8
   })
   return Math.min(100, Math.max(40, complementScore))
@@ -125,18 +125,18 @@ function calcPersonalityMatch(wx1: string, wx2: string): number {
   const sheng: Record<string, string> = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
   const ke: Record<string, string> = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
 
-  if (wx1 === wx2) return 70 // 同五行，有默契但缺新鲜感
-  if (sheng[wx1] === wx2 || sheng[wx2] === wx1) return 88 // 相生
-  if (ke[wx1] === wx2 || ke[wx2] === wx1) return 55 // 相克
+  if (wx1 === wx2) return 70
+  if (sheng[wx1] === wx2 || sheng[wx2] === wx1) return 88
+  if (ke[wx1] === wx2 || ke[wx2] === wx1) return 55
   return 72
 }
 
 // 感情运势
 function calcLoveFortune(bz1: BaziResult, bz2: BaziResult): number {
-  // 简化：根据双方命盘中的财官星和食伤星判断
-  const loveStars1 = bz1.shiShen.filter(s => s.name === '正官' || s.name === '七杀' || s.name === '食神' || s.name === '伤官').length
-  const loveStars2 = bz2.shiShen.filter(s => s.name === '正财' || s.name === '偏财').length
-  return Math.min(95, Math.max(50, 55 + loveStars1 * 8 + loveStars2 * 10))
+  // 双方命盘中的感情星耀综合判断
+  const loveStars1 = bz1.shiShen.filter(s => s.name === '正官' || s.name === '七杀' || s.name === '正财' || s.name === '偏财').length
+  const loveStars2 = bz2.shiShen.filter(s => s.name === '正官' || s.name === '七杀' || s.name === '正财' || s.name === '偏财').length
+  return Math.min(95, Math.max(50, 55 + loveStars1 * 6 + loveStars2 * 6))
 }
 
 // 生活协调度
@@ -148,10 +148,11 @@ function calcLifeHarmony(bz1: BaziResult, bz2: BaziResult): number {
 }
 
 function generateMarriageSummary(score: number, bz1: BaziResult, bz2: BaziResult): string {
-  if (score >= 85) return `${bz1.shengXiao}女 + ${bz2.shengXiao}男，天作之合！你们的缘分指数非常高，从八字来看是难得的好组合。在一起的时候彼此都感到舒服和安心，这种默契是很多人羡慕不来的。`
-  if (score >= 70) return `${bz1.shengXiao}女 + ${bz2.shengXiao}男，缘分不错哦！你们之间有很强的吸引力，虽然偶尔会有小分歧，但正好是增进感情的催化剂。用心经营，这段关系会越来越稳固。`
-  if (score >= 55) return `${bz1.shengXiao}女 + ${bz2.shengXiao}男，有缘分但需要经营。你们之间的吸引力是真实的，只是在性格和生活习惯上有一些差异需要磨合。多沟通、多包容，感情会越来越好的。`
-  return `${bz1.shengXiao}女 + ${bz2.shengXiao}男，缘分需要时间培养。八字上看你们有一些差异，但这不代表没有可能。如果真心喜欢，多了解对方、给彼此空间，说不定会有意想不到的惊喜。`
+  const label = `属${bz1.shengXiao} + 属${bz2.shengXiao}`
+  if (score >= 85) return `${label}，天作之合！你们的缘分指数非常高，从八字来看是难得的好组合。在一起的时候彼此都感到舒服和安心，这种默契是很多人羡慕不来的。`
+  if (score >= 70) return `${label}，缘分不错哦！你们之间有很强的吸引力，虽然偶尔会有小分歧，但正好是增进感情的催化剂。用心经营，这段关系会越来越稳固。`
+  if (score >= 55) return `${label}，有缘分但需要经营。你们之间的吸引力是真实的，只是在性格和生活习惯上有一些差异需要磨合。多沟通、多包容，感情会越来越好的。`
+  return `${label}，缘分需要时间培养。八字上看你们有一些差异，但这不代表没有可能。如果真心喜欢，多了解对方、给彼此空间，说不定会有意想不到的惊喜。`
 }
 
 function generateMarriageAdvice(score: number, dims: MarriageResult['dimensions']): string {

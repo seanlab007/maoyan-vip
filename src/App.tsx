@@ -95,7 +95,7 @@ function AppRoutes() {
           <Route path="/learn-earn" element={<ProtectedRoute><AppLayout><LearnEarnPage /></AppLayout></ProtectedRoute>} />
           <Route path="/sell-course" element={<ProtectedRoute><AppLayout><SellCoursePage /></AppLayout></ProtectedRoute>} />
 
-          {/* 命理小馆 - 变美板块 */}
+          {/* 命理小馆 - 搞钱板块 */}
           <Route path="/fortune" element={<ProtectedRoute><AppLayout><FortuneHubPage /></AppLayout></ProtectedRoute>} />
           <Route path="/fortune/bazi" element={<ProtectedRoute><AppLayout><FortuneBaziPage /></AppLayout></ProtectedRoute>} />
           <Route path="/fortune/marriage" element={<ProtectedRoute><AppLayout><FortuneMarriagePage /></AppLayout></ProtectedRoute>} />

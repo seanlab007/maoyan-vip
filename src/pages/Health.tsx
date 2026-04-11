@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/store/authStore'
@@ -645,29 +644,6 @@ export default function HealthPage() {
         </div>
       </div>
 
-      {/* ─── 命理小馆入口 ─── */}
-      <div style={{ marginTop: 32 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 14, color: 'var(--text)' }}>✨ 更多变美功能</h3>
-        <Link to="/fortune" style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(192,132,252,0.18) 0%, rgba(244,114,182,0.18) 50%, rgba(251,146,60,0.18) 100%)',
-            border: '1px solid rgba(192,132,252,0.35)',
-            borderRadius: 16,
-            padding: '20px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 16,
-            transition: 'transform 0.15s',
-          }}>
-            <div style={{ fontSize: 44, flexShrink: 0 }}>🔮</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 18, fontWeight: 800, background: 'linear-gradient(135deg,#c084fc,#f472b6,#fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 4 }}>命理小馆</div>
-              <div style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.5 }}>八字排盘 · 姻缘测算 · 财运分析 · 每日运势 · 姓名测试</div>
-              <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4, opacity: 0.7 }}>探索命运密码，专为精致女孩定制 →</div>
-            </div>
-          </div>
-        </Link>
-      </div>
     </div>
   )
 }

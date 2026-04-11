@@ -1,11 +1,30 @@
 import React, { useState } from 'react'
-import { calculateBazi, type BaziResult } from '@/lib/fortune/bazi'
+import { calculateBazi, type BaziResult, type Gender } from '@/lib/fortune/bazi'
 import { motion } from 'framer-motion'
 
 const WX_COLORS: Record<string, string> = { '金': '#fbbf24', '木': '#4ade80', '水': '#60a5fa', '火': '#f87171', '土': '#d4a574' }
 const WX_LABELS = ['金', '木', '水', '火', '土'] as const
 
+function GenderPicker({ value, onChange }: { value: Gender | ''; onChange: (g: Gender) => void }) {
+  return (
+    <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+      {([['male', '👨 男', '#60a5fa'], ['female', '👩 女', '#f472b6']] as const).map(([g, label, color]) => (
+        <button key={g} onClick={() => onChange(g)}
+          style={{
+            flex: 1, padding: '10px 0', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer',
+            background: value === g ? `${color}22` : 'var(--bg3)',
+            border: value === g ? `2px solid ${color}` : '2px solid rgba(255,255,255,0.1)',
+            color: value === g ? color : 'var(--text3)',
+            transition: 'all 0.15s',
+          }}
+        >{label}</button>
+      ))}
+    </div>
+  )
+}
+
 export default function FortuneBazi() {
+  const [gender, setGender] = useState<Gender | ''>('')
   const [year, setYear] = useState('')
   const [month, setMonth] = useState('')
   const [day, setDay] = useState('')
@@ -14,10 +33,10 @@ export default function FortuneBazi() {
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = () => {
-    if (!year || !month || !day || hour === '') return
+    if (!gender || !year || !month || !day || hour === '') return
     setLoading(true)
     setTimeout(() => {
-      const r = calculateBazi(+year, +month, +day, +hour)
+      const r = calculateBazi(+year, +month, +day, +hour, gender)
       setResult(r)
       setLoading(false)
     }, 800)
@@ -37,6 +56,9 @@ export default function FortuneBazi() {
 
       {/* 输入表单 */}
       <div style={{ background: 'var(--bg2)', borderRadius: 16, padding: 24, marginBottom: 24, border: '1px solid rgba(255,255,255,0.06)' }}>
+        <label style={{ fontSize: 13, color: 'var(--text3)', marginBottom: 8, display: 'block', fontWeight: 600 }}>选择性别</label>
+        <GenderPicker value={gender} onChange={setGender} />
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
           {[
             { label: '年', value: year, set: setYear, placeholder: '1995', max: 4 },
@@ -62,12 +84,12 @@ export default function FortuneBazi() {
         </div>
         <button
           onClick={handleSubmit}
-          disabled={loading || !year || !month || !day || hour === ''}
+          disabled={loading || !gender || !year || !month || !day || hour === ''}
           style={{
             width: '100%', marginTop: 16, padding: '12px', borderRadius: 12,
             background: 'linear-gradient(135deg,#c084fc,#f472b6)',
             color: '#fff', fontSize: 15, fontWeight: 700, border: 'none', cursor: loading ? 'wait' : 'pointer',
-            opacity: (!year || !month || !day || hour === '') ? 0.5 : 1,
+            opacity: (!gender || !year || !month || !day || hour === '') ? 0.5 : 1,
           }}
         >
           {loading ? '排盘中...' : '开始排盘'}

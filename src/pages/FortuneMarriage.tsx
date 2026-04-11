@@ -58,8 +58,8 @@ export default function FortuneMarriage() {
       {/* 双方输入 */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
         {[
-          { title: '她的信息', y: y1, mY: m1, dY: d1, hY: h1, sY: setY1, sM: setM1, sD: setD1, sH: setH1 },
-          { title: '他的信息', y: y2, mY: m2, dY: d2, hY: h2, sY: setY2, sM: setM2, sD: setD2, sH: setH2 },
+          { title: '甲方信息', y: y1, mY: m1, dY: d1, hY: h1, sY: setY1, sM: setM1, sD: setD1, sH: setH1 },
+          { title: '乙方信息', y: y2, mY: m2, dY: d2, hY: h2, sY: setY2, sM: setM2, sD: setD2, sH: setH2 },
         ].map(info => (
           <div key={info.title} style={{ background: 'var(--bg2)', borderRadius: 16, padding: 20, border: '1px solid rgba(255,255,255,0.06)' }}>
             <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 12, color: 'var(--text)' }}>{info.title}</div>

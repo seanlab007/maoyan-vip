@@ -2,7 +2,7 @@
  * 命理模块统一导出
  */
 export { calculateBazi } from './bazi'
-export type { BaziResult } from './bazi'
+export type { BaziResult, Gender } from './bazi'
 export { calculateMarriage } from './marriage'
 export type { MarriageResult } from './marriage'
 export { analyzeWealth } from './wealth'

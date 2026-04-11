@@ -1,7 +1,7 @@
 /**
  * 财运分析模块
  * 基于八字分析财运方向、理财建议
- * 面向女性用户优化
+ * 支持男女通用
  */
 
 import { calculateBazi, BaziResult } from './bazi'
@@ -120,7 +120,7 @@ function getYearWuXing(year: number): string {
 }
 
 function generateWealthSummary(type: string, score: number, riWx: string, topWx: string, industries: string[]): string {
-  return `你的财运类型为「${type}」，财运指数 ${score} 分。${type === '正偏财双全' ? '你天生就是个小富婆的命，既能踏实赚钱也能抓住意外之财。' : type === '正财运旺盛' ? '你的正财运很旺，靠工资和稳定收入就能过得很好，适合深耕一个领域。' : type === '偏财运突出' ? '你常有意外收获的惊喜，投资眼光不错，但要注意别贪心。' : type === '暗藏财运' ? '你的财运不是摆在明面上的，需要发掘自己的潜力才能显现。' : '你的财富更多来自个人才华和专业能力，投资自己永远是最好的投资。'}五行${topWx}是你的贵人五行，从事${industries.slice(0, 2).join('或')}等行业会特别顺。`
+  return `你的财运类型为「${type}」，财运指数 ${score} 分。${type === '正偏财双全' ? '你天生就是个有财运的命，既能踏实赚钱也能抓住意外之财。' : type === '正财运旺盛' ? '你的正财运很旺，靠工资和稳定收入就能过得很好，适合深耕一个领域。' : type === '偏财运突出' ? '你常有意外收获的惊喜，投资眼光不错，但要注意别贪心。' : type === '暗藏财运' ? '你的财运不是摆在明面上的，需要发掘自己的潜力才能显现。' : '你的财富更多来自个人才华和专业能力，投资自己永远是最好的投资。'}五行${topWx}是你的贵人五行，从事${industries.slice(0, 2).join('或')}等行业会特别顺。`
 }
 
 function generateWealthAdvice(type: string, score: number, lackWx: string[], directions: string[], colors: string[]): string {

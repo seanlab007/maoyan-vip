@@ -1,7 +1,7 @@
 /**
  * 每日运势模块
  * 基于出生八字 + 当日干支计算今日运势
- * 面向女性用户优化
+ * 支持男女通用
  */
 
 import { calculateBazi, TIAN_GAN, DI_ZHI, WU_XING_GAN, WU_XING_ZHI } from './bazi'

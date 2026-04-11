@@ -1,7 +1,7 @@
 /**
  * 姓名测试模块
  * 基于五格剖象法分析姓名
- * 面向女性用户优化
+ * 支持男女通用
  */
 
 const KANGXI_STROKES: Record<string, number> = {

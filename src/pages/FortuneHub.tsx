@@ -21,7 +21,7 @@ export default function FortuneHub() {
       >
         <div style={{ fontSize: 56, marginBottom: 12 }}>🔮</div>
         <h1 style={{ fontSize: 28, fontWeight: 800, background: 'linear-gradient(135deg,#c084fc,#f472b6,#fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 8 }}>命理小馆</h1>
-        <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.6 }}>探索命运的秘密，了解真实的自己<br />为每一位精致女孩量身定制</p>
+        <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.6 }}>探索命运的秘密，了解真实的自己<br />用传统易学智慧，助力你的人生决策</p>
       </motion.div>
 
       {/* 功能卡片 */}
