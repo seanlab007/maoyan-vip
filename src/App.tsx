@@ -44,6 +44,9 @@ const FortuneMarriagePage = React.lazy(() => import('@/pages/FortuneMarriage'))
 const FortuneWealthPage = React.lazy(() => import('@/pages/FortuneWealth'))
 const FortuneDailyPage = React.lazy(() => import('@/pages/FortuneDaily'))
 const FortuneNamePage = React.lazy(() => import('@/pages/FortuneName'))
+const FortuneZiWeiPage = React.lazy(() => import('@/pages/FortuneZiWei'))
+const FortuneDaYunPage = React.lazy(() => import('@/pages/FortuneDaYun'))
+const FortuneTarotPage = React.lazy(() => import('@/pages/FortuneTarot'))
 
 function AnalyticsTracker() {
   const location = useLocation()
@@ -102,6 +105,9 @@ function AppRoutes() {
           <Route path="/fortune/wealth" element={<ProtectedRoute><AppLayout><FortuneWealthPage /></AppLayout></ProtectedRoute>} />
           <Route path="/fortune/daily" element={<ProtectedRoute><AppLayout><FortuneDailyPage /></AppLayout></ProtectedRoute>} />
           <Route path="/fortune/name" element={<ProtectedRoute><AppLayout><FortuneNamePage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/ziwei" element={<ProtectedRoute><AppLayout><FortuneZiWeiPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/dayun" element={<ProtectedRoute><AppLayout><FortuneDaYunPage /></AppLayout></ProtectedRoute>} />
+          <Route path="/fortune/tarot" element={<ProtectedRoute><AppLayout><FortuneTarotPage /></AppLayout></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

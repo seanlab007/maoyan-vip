@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 const FEATURES = [
-  { path: '/fortune/bazi', icon: '🔮', title: '八字排盘', desc: '输入生辰八字，解读你的命运密码', gradient: 'from-purple-500/20 to-pink-500/20' },
-  { path: '/fortune/marriage', icon: '💕', title: '姻缘测算', desc: '测测你和TA的缘分指数', gradient: 'from-pink-500/20 to-rose-500/20' },
-  { path: '/fortune/wealth', icon: '💰', title: '财运分析', desc: '了解你的财富密码和理财方向', gradient: 'from-amber-500/20 to-orange-500/20' },
-  { path: '/fortune/daily', icon: '✨', title: '每日运势', desc: '每日运势早知道，好运不缺席', gradient: 'from-cyan-500/20 to-blue-500/20' },
-  { path: '/fortune/name', icon: '🌸', title: '姓名测试', desc: '测测你的名字有多少分', gradient: 'from-green-500/20 to-teal-500/20' },
+  { path: '/fortune/bazi', icon: '🔮', title: '八字排盘', desc: '输入生辰八字，解读你的命运密码', gradient: 'from-purple-500/20 to-pink-500/20', isNew: false },
+  { path: '/fortune/marriage', icon: '💕', title: '姻缘测算', desc: '测测你和TA的缘分指数', gradient: 'from-pink-500/20 to-rose-500/20', isNew: false },
+  { path: '/fortune/wealth', icon: '💰', title: '财运分析', desc: '了解你的财富密码和理财方向', gradient: 'from-amber-500/20 to-orange-500/20', isNew: false },
+  { path: '/fortune/daily', icon: '✨', title: '每日运势', desc: '每日运势早知道，好运不缺席', gradient: 'from-cyan-500/20 to-blue-500/20', isNew: false },
+  { path: '/fortune/name', icon: '🌸', title: '姓名测试', desc: '测测你的名字有多少分', gradient: 'from-green-500/20 to-teal-500/20', isNew: false },
+  { path: '/fortune/ziwei', icon: '🌌', title: '紫微斗数', desc: '千年星命之术，十二宫位解析人生格局', gradient: 'from-violet-500/20 to-purple-500/20', isNew: true },
+  { path: '/fortune/dayun', icon: '🌊', title: '大运流年', desc: '十年大运推算，把握人生运势节点', gradient: 'from-blue-500/20 to-indigo-500/20', isNew: true },
+  { path: '/fortune/tarot', icon: '🎴', title: '塔罗占卜', desc: '78张神秘牌组，感受宇宙的指引', gradient: 'from-rose-500/20 to-purple-500/20', isNew: true },
 ]
 
 export default function FortuneHub() {
@@ -41,6 +44,7 @@ export default function FortuneHub() {
                 padding: 24,
                 transition: 'all 0.2s',
                 cursor: 'pointer',
+                position: 'relative',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.transform = 'translateY(-4px)'
@@ -53,6 +57,14 @@ export default function FortuneHub() {
                 e.currentTarget.style.boxShadow = 'none'
               }}
               >
+                {f.isNew && (
+                  <span style={{
+                    position: 'absolute', top: 12, right: 12,
+                    fontSize: 10, fontWeight: 800, padding: '2px 8px',
+                    borderRadius: 20, background: 'linear-gradient(135deg,#f472b6,#c084fc)',
+                    color: '#fff', letterSpacing: 0.5,
+                  }}>NEW</span>
+                )}
                 <div style={{ fontSize: 36, marginBottom: 14 }}>{f.icon}</div>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>{f.title}</h3>
                 <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.5 }}>{f.desc}</p>
