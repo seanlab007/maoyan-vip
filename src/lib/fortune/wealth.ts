@@ -4,7 +4,9 @@
  * 面向女性用户优化
  */
 
-import { calculateBazi, BaziResult, TIAN_GAN } from './bazi'
+import { calculateBazi, BaziResult } from './bazi'
+
+const WU_XING_KE: Record<string, string> = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
 
 export interface WealthResult {
   score: number           // 财运指数 0-100

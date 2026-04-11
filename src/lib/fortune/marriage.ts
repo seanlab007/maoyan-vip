@@ -141,8 +141,8 @@ function calcLoveFortune(bz1: BaziResult, bz2: BaziResult): number {
 
 // 生活协调度
 function calcLifeHarmony(bz1: BaziResult, bz2: BaziResult): number {
-  const allWx = [...bz1.wuXingCount, ...bz2.wuXingCount] as unknown as [string, number][]
-  const total = allWx.reduce((s, [, v]) => s + v, 0)
+  const allEntries = [...Object.entries(bz1.wuXingCount), ...Object.entries(bz2.wuXingCount)]
+  const total = allEntries.reduce((s, [, v]) => s + v, 0)
   const hasBalance = Object.values(bz1.wuXingCount).some(v => v >= 2) && Object.values(bz2.wuXingCount).some(v => v >= 2)
   return hasBalance ? 75 + Math.floor(Math.random() * 15) : 55 + Math.floor(Math.random() * 20)
 }
