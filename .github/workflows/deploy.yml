@@ -30,4 +30,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=maoyan-vip --branch=main
+          command: pages deploy dist --project-name=maoyan-vip --branch=main --commit-dirty=true --commit-message="deploy ${{ github.sha }}"
