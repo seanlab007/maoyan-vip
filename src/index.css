@@ -45,11 +45,12 @@
 
 html { 
   scroll-behavior: smooth; 
+  background: var(--white) !important;
 }
 
 body {
-  background: var(--white);
-  color: var(--black);
+  background: var(--white) !important;
+  color: var(--black) !important;
   font-family: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
@@ -58,6 +59,7 @@ body {
 
 #root { 
   width: 100%; 
+  background: var(--white) !important;
 }
 
 a { 
@@ -82,6 +84,20 @@ input, textarea, select {
 
 img { 
   max-width: 100%; 
+}
+
+/* ===== FORCE LIGHT BACKGROUND ===== */
+div[style*="background: #0c0d10"],
+div[style*="background: #14161c"],
+div[style*="background: #1c1f28"],
+section[style*="background: #0c0d10"],
+section[style*="background: #14161c"],
+section[style*="background: #1c1f28"],
+nav[style*="background: #0c0d10"],
+nav[style*="background: #14161c"],
+nav[style*="background: #1c1f28"] {
+  background: var(--white) !important;
+  color: var(--black) !important;
 }
 
 /* ===== SCROLLBAR ===== */
