@@ -30,7 +30,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {/* ===== ABG LAYOUT STYLES ===== */}
+      {/* ===== ABG LIGHT LAYOUT STYLES ===== */}
       <style>{`
         /* Desktop: Fixed sidebar + content area */
         @media (min-width: 1024px) {

@@ -1,6 +1,6 @@
-/* ===== ABG VISUAL IDENTITY ===== */
+/* ===== ABG VISUAL IDENTITY - LIGHT MINIMALISM ===== */
 :root {
-  /* ABG Primary Colors - Achromatic Minimalism */
+  /* ABG Primary Colors - Achromatic Minimalism (Light Mode) */
   --navy: #122849;
   --black: #000000;
   --white: #FFFFFF;
@@ -12,7 +12,7 @@
   --gray-border: #E8E8E4;
   --navy-tint: rgba(18, 40, 73, 0.08);
   
-  /* Legacy support (for gradual transition) */
+  /* Legacy support - remapped to light palette */
   --gold: #122849;
   --gold2: #555555;
   --gold-dark: #000000;
@@ -49,7 +49,7 @@ html {
 
 body {
   background: var(--white);
-  color: var(--text);
+  color: var(--black);
   font-family: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
@@ -86,7 +86,7 @@ img {
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { 
-  width: 6px; 
+  width: 8px; 
 }
 
 ::-webkit-scrollbar-track { 
@@ -95,7 +95,7 @@ img {
 
 ::-webkit-scrollbar-thumb { 
   background: var(--gray-light); 
-  border-radius: 3px; 
+  border-radius: 4px; 
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -221,11 +221,12 @@ p {
   border-radius: 4px;
   padding: 24px;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .card:hover {
   border-color: var(--gray-mid);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== INPUTS ===== */
